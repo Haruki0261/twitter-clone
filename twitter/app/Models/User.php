@@ -42,7 +42,30 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function findByUserId($id){
-        return User::findOrFail($id);
+    /**Pathパラメータの'/users/{id}'のIDと一致したレコードのIDを取得
+     * 
+     * @param string $id
+     * @return User
+     */
+    public function findByUserId(string $userId): User
+    {
+        return User::findOrFail($userId);
+    } 
+
+    /**
+     * Pathパラメータの’/user/{id}/update'のIDと一致したレコードのIDを取得
+     *
+     * @param string $name
+     * @param string $email
+     * @param string $userId
+     * @return User
+     */
+    public function updateUserById(string $name, string $email, string $userId): User
+    {
+        $user = User::find($userId);
+        $user->name = $name;
+        $user->email = $email;
+        $user->save();
+        return $user;
     }
 }
