@@ -31,4 +31,6 @@ Route::group(['middleware' => 'auth'], function () {
 // ユーザー一覧画面
     Route::get('/user/show', [App\Http\Controllers\UserController::class, 'getAll'])->name('users.index');
 
+// ユーザー削除
+    Route::get('/user/{id}/delete', [App\Http\Controllers\UserController::class, 'delete'])->name('user.delete');
 });

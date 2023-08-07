@@ -20,6 +20,7 @@
           <td>{{ $user->created_at }}</td>
           <td>
           <a href="{{ route('user.showEdit') }}" class='btn btn-light'>編集</a>
+          <a href="{{ route('user.delete',[ 'id' => Auth::id()]) }}" class='btn btn-warning'>削除</a>
           </td>
         </tr>
       </table>

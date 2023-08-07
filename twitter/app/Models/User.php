@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -81,5 +83,16 @@ class User extends Authenticatable
         
         return $users;
     }
-    
+
+    /**
+     * ログインしているユーザーのデータを削除する
+     *
+     * @param string $id
+     * @return void
+     */
+    public function getActiveUser(string $id): void
+    {
+        $user = User::find($id);
+        $user->delete();
+    }
 }
