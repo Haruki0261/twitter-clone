@@ -29,6 +29,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/user/{id}/update', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
 
 // ユーザー一覧画面
-    Route::get('/user/show', [App\Http\Controllers\UserController::class, 'getAll'])->name('user.showUser');
+    Route::get('/user/show', [App\Http\Controllers\UserController::class, 'getAll'])->name('users.index');
 
 });

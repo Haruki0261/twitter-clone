@@ -78,6 +78,7 @@ class User extends Authenticatable
     public function getAllUser(): Collection
     {
         $users = User::all();
+        
         return $users;
     }
     

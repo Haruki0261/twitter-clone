@@ -65,7 +65,7 @@ class UserController extends Controller
         $user->updateUserById($name, $email, $userId);
         return redirect()->route('users.findByUserId', ['id' => $userId]);
     }
-    
+
     /**
      * ユーザー情報一覧表示
      *
@@ -74,7 +74,7 @@ class UserController extends Controller
     public function getAll(): view
     {
         $users = $this->user->getAllUser();
-        return view('user.index',compact('users'));
+        return view('user.index', compact('users'));
     }
 
 }
