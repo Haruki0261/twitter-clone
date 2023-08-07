@@ -83,12 +83,11 @@ class UserController extends Controller
     /**
      * ユーザー情報削除
      *
-     * @param string $id
      * @return RedirectResponse
      */
-    public function delete(string $id): RedirectResponse
+    public function delete(): RedirectResponse
     {
-        $users = $this->user->getActiveUser($id);
+        $this->user->delete();
     
         return redirect()->route('top');   
     }

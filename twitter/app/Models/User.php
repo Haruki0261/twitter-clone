@@ -87,12 +87,11 @@ class User extends Authenticatable
     /**
      * ログインしているユーザーのデータを削除する
      *
-     * @param string $id
      * @return void
      */
-    public function getActiveUser(string $id): void
+    public function delete(): void
     {
-        $user = User::find($id);
+        $user = User::find(Auth::id());
         $user->delete();
     }
 }
