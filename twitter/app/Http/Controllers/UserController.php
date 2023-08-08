@@ -46,7 +46,8 @@ class UserController extends Controller
      */
     public function showEdit(): view
     {
-        $user = auth()->user();
+        $user = auth()->user();//認証しているユーザーの情報
+
         return view('user.edit', compact('user'));
     }
 
@@ -63,6 +64,31 @@ class UserController extends Controller
         $name = $request->input('name');
         $email = $request->input('email');
         $user->updateUserById($name, $email, $userId);
+
         return redirect()->route('users.findByUserId', ['id' => $userId]);
+    }
+
+    /**
+     * ユーザー情報一覧表示
+     *
+     * @return view
+     */
+    public function getAll(): view
+    {
+        $users = $this->user->getAllUser();
+
+        return view('user.index', compact('users'));
+    }
+
+    /**
+     * ユーザー情報削除
+     *
+     * @return RedirectResponse
+     */
+    public function delete(): RedirectResponse
+    {
+        $this->user->delete();
+    
+        return redirect()->route('top');   
     }
 }

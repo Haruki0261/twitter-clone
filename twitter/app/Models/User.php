@@ -6,11 +6,15 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -67,5 +71,27 @@ class User extends Authenticatable
         $user->email = $email;
         $user->save();
         return $user;
+    }
+
+    /**
+     * 全てのユーザーの情報を取得する
+     *
+     * @return Collection
+     */
+    public function getAllUser(): Collection
+    {
+        $users = User::all();
+        
+        return $users;
+    }
+
+    /**
+     * ログインしているユーザーのデータを削除する
+     *
+     * @return void
+     */
+    public function delete(): void
+    {
+        User::where('id', Auth::id())->delete();
     }
 }
