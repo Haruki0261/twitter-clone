@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -91,7 +92,6 @@ class User extends Authenticatable
      */
     public function delete(): void
     {
-        $user = User::find(Auth::id());
-        $user->delete();
+        User::where('id', Auth::id())->delete();
     }
 }
