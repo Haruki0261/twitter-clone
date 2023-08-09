@@ -29,4 +29,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user/show', [App\Http\Controllers\UserController::class, 'getAll'])->name('users.index');
     // ユーザー削除
     Route::get('/user/delete', [App\Http\Controllers\UserController::class, 'delete'])->name('user.delete');
+    //ツイート投稿画面に遷移
+     Route::get('/tweet/create', [App\Http\Controllers\TweetController::class, 'showTweetForm'])->name('tweets.showForm');
+    //ツイート投稿
+    Route::post('/tweet', [App\Http\Controllers\TweetController::class, 'create'])->name('tweets.create');
+    //ツイート一覧表示
+    Route::get('/tweets/show', [App\Http\Controllers\TweetController::class, 'showTweets'])->name('tweets.show');
 });
+
+
+

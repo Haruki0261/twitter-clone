@@ -94,4 +94,14 @@ class User extends Authenticatable
     {
         User::where('id', Auth::id())->delete();
     }
+    
+    /**
+     * リレーション（Tweetテーブルのauthor_idとUserテーブルのidを紐付けする）
+     *
+     * @return belongsTo
+     */
+    public function tweets(): belongsTo
+    {
+        return $this->belongsTo(Tweet::class, 'author_id', 'id');
+    }
 }
