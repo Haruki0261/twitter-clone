@@ -30,7 +30,7 @@ class Tweet extends Model
      * @param string $content
      * @return Tweet
      */
-    public function createPost(int $author_id, string $content): Tweet
+    public function create(int $author_id, string $content): Tweet
     {
         $tweet = new Tweet();
         $tweet->content = $content;

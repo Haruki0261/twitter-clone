@@ -2,27 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tweet;
+use App\Http\Requests\TweetRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use App\Models\Tweet;
-use App\Http\Requests\TweetRequest;
 
 class TweetController extends Controller
 {
+    private $tweet;
     /**
      * インスタンスの生成
      *
      * @var Tweet
      */
-    private $tweet;
     public function __construct(Tweet $tweet){
         $this->tweet = $tweet;
     }
 
     /**
-     * 投稿ボタンを押したら、投稿ボタンに遷移
+     * 投稿ボタンを押したら、投稿画面に遷移
      *
      * @return view
      */
@@ -42,7 +42,7 @@ class TweetController extends Controller
     {
         $author_id = Auth::id();
         $content = $request->input('content');
-        $this->tweet->createPost($author_id, $content);
+        $this->tweet->create($author_id, $content);
 
         return redirect()->route('tweets.show');
     }
@@ -52,7 +52,7 @@ class TweetController extends Controller
      *
      * @return view
      */
-    public function showTweets (): view
+    public function index (): view
     {
         return view('tweet.show');
     }
