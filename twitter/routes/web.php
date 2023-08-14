@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\TopController::class, 'index'])->name('top');
 
+
 Auth::routes();
 Auth::routes(['verify' => true]);
 
@@ -30,3 +31,15 @@ Route::group(['middleware' => 'auth'], function () {
     // ユーザー削除
     Route::get('/user/delete', [App\Http\Controllers\UserController::class, 'delete'])->name('user.delete');
 });
+
+Route::group(['prefix' => 'tweet', 'middleware' => 'auth'], function (){
+    //ツイート投稿画面に遷移
+    Route::get('/create', [App\Http\Controllers\TweetController::class, 'showTweetForm'])->name('tweets.showForm');
+    //ツイート投稿
+    Route::post('', [App\Http\Controllers\TweetController::class, 'create'])->name('tweets.create');
+    //ツイート一覧表示
+    Route::get('/show', [App\Http\Controllers\TopController::class, 'index'])->name('tweets.show');
+});
+
+
+
