@@ -24,7 +24,7 @@ class TweetController extends Controller
      *
      * @return view
      */
-    public function showTweetForm (): view
+    public function showTweetForm(): view
     {
         return view('tweet.create');
     }
@@ -36,7 +36,7 @@ class TweetController extends Controller
      *
      * @return RedirectResponse
      */
-    public function create (TweetRequest $request): RedirectResponse
+    public function create(TweetRequest $request): RedirectResponse
     {
         $authorId = Auth::id();
         $content = $request->input('content');
