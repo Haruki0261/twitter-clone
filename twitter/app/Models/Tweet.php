@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\Collection;
 
 class Tweet extends Model
@@ -17,12 +17,11 @@ class Tweet extends Model
     /**
      * リレーション（Userテーブルのidカラムと、author_idカラムを紐付けている）
      *
-     * @return HasOne
+     * @return belongsTo
      */
-    public function user(): HasOne
+    public function user(): belongsTo
     {
-        return $this->hasOne(User::class, 'id', 'author_id');
-
+        return $this->belongsTo(User::class, 'author_id' , 'id');
     }
 
     /**
@@ -32,11 +31,11 @@ class Tweet extends Model
      * @param string $content
      * @return Tweet
      */
-    public function create(int $author_id, string $content): Tweet
+    public function create(int $authorId, string $content): Tweet
     {
         $tweet = new Tweet();
         $tweet->content = $content;
-        $tweet->author_id = $author_id;
+        $tweet->authorId = $authorId;
         $tweet->save();
 
         return $tweet;
@@ -50,7 +49,7 @@ class Tweet extends Model
     public function getAllTweets(): Collection
     {
         $tweets = Tweet::with('user')->get();
-        
+
         return $tweets;
     }
 }

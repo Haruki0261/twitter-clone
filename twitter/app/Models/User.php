@@ -47,14 +47,14 @@ class User extends Authenticatable
     ];
 
     /**Pathパラメータの'/users/{id}'のIDと一致したレコードのIDを取得
-     * 
+     *
      * @param string $id
      * @return User
      */
     public function findByUserId(string $userId): User
     {
         return User::findOrFail($userId);
-    } 
+    }
 
     /**
      * Pathパラメータの’/user/{id}/update'のIDと一致したレコードのIDを取得
@@ -81,7 +81,7 @@ class User extends Authenticatable
     public function getAllUser(): Collection
     {
         $users = User::all();
-        
+
         return $users;
     }
 
@@ -94,14 +94,14 @@ class User extends Authenticatable
     {
         User::where('id', Auth::id())->delete();
     }
-    
+
     /**
      * リレーション（Tweetテーブルのauthor_idとUserテーブルのidを紐付けする）
      *
-     * @return belongsTo
+     * @return hasMany
      */
-    public function tweets(): belongsTo
+    public function tweets(): hasMany
     {
-        return $this->belongsTo(Tweet::class, 'author_id', 'id');
+        return $this->hasMany(Tweet::class, 'author_id', 'id');
     }
 }

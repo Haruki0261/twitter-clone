@@ -11,12 +11,10 @@ use Illuminate\Http\RedirectResponse;
 
 class TweetController extends Controller
 {
-    private $tweet;
     /**
-     * インスタンスの生成
-     *
-     * @var Tweet
+     *Tweetモデルのインスタンスを受け取り、プロパティに代入する
      */
+    private $tweet;
     public function __construct(Tweet $tweet){
         $this->tweet = $tweet;
     }
@@ -40,9 +38,9 @@ class TweetController extends Controller
      */
     public function create (TweetRequest $request): RedirectResponse
     {
-        $author_id = Auth::id();
+        $authorId = Auth::id();
         $content = $request->input('content');
-        $this->tweet->create($author_id, $content);
+        $this->tweet->create($authorId, $content);
 
         return redirect()->route('tweets.show');
     }
