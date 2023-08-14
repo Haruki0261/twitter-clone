@@ -35,7 +35,7 @@ class TweetController extends Controller
      * 投稿者と、投稿内容を取得して、ルーティングを返す
      *
      * @param TweetRequest $request
-     * 
+     *
      * @return RedirectResponse
      */
     public function create (TweetRequest $request): RedirectResponse
@@ -45,15 +45,5 @@ class TweetController extends Controller
         $this->tweet->create($author_id, $content);
 
         return redirect()->route('tweets.show');
-    }
-
-    /**
-     * 投稿一覧画面に遷移する
-     *
-     * @return view
-     */
-    public function index (): view
-    {
-        return view('tweet.show');
     }
 }

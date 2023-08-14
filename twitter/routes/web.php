@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\TopController::class, 'index'])->name('top');
 
+
 Auth::routes();
 Auth::routes(['verify' => true]);
 
@@ -37,7 +38,7 @@ Route::group(['prefix' => 'tweet', 'middleware' => 'auth'], function (){
     //ツイート投稿
     Route::post('', [App\Http\Controllers\TweetController::class, 'create'])->name('tweets.create');
     //ツイート一覧表示
-    Route::get('/show', [App\Http\Controllers\TweetController::class, 'index'])->name('tweets.show');
+    Route::get('/show', [App\Http\Controllers\TopController::class, 'index'])->name('tweets.show');
 });
 
 
