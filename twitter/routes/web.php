@@ -39,6 +39,8 @@ Route::group(['prefix' => 'tweet', 'middleware' => 'auth'], function (){
     Route::post('', [App\Http\Controllers\TweetController::class, 'create'])->name('tweets.create');
     //ツイート一覧表示
     Route::get('/show', [App\Http\Controllers\TopController::class, 'index'])->name('tweets.show');
+    //ツイート詳細画面に遷移
+    Route::get('/{id}/details', [App\Http\Controllers\TweetController::class, 'findByTweetId'])->name('tweet.details');
 });
 
 

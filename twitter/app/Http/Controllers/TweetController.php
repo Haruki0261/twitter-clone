@@ -44,4 +44,17 @@ class TweetController extends Controller
 
         return redirect()->route('tweets.show');
     }
+
+    /**
+     * ツイート詳細画面に遷移
+     *
+     * @param string $userId
+     * @return view
+     */
+    public function findByTweetId(string $userId): view
+    {
+        $tweet = $this->tweet->getTweet($userId);
+
+        return view('tweet.show', compact('tweet'));
+    }
 }
