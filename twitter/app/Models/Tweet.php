@@ -65,4 +65,20 @@ class Tweet extends Model
 
         return $tweet;
     }
+
+    /**
+     * Pathパラメータの’/{id}/update'のIDと一致したレコードを更新する
+     *
+     * @param string $content
+     * @param string $userId
+     * @return Tweet
+     */
+    public function updateTweet(string $content, string $userId): Tweet
+    {
+        $tweet = Tweet::find($userId);
+        $content = $tweet->content = $content;
+        $tweet->save();
+
+        return $tweet;
+    }
 }

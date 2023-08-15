@@ -41,6 +41,8 @@ Route::group(['prefix' => 'tweet', 'middleware' => 'auth'], function (){
     Route::get('/show', [App\Http\Controllers\TopController::class, 'index'])->name('tweets.show');
     //ツイート詳細画面に遷移
     Route::get('/{id}/details', [App\Http\Controllers\TweetController::class, 'findByTweetId'])->name('tweet.details');
+    //ツイートを更新して、ツイート一覧表示に遷移
+    Route::put('/{id}/update', [App\Http\Controllers\TopController::class, 'update'])->name('tweet.update');
 });
 
 
