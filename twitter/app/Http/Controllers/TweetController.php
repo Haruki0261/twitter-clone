@@ -52,7 +52,6 @@ class TweetController extends Controller
     public function index(): view
     {
         $tweets = $this->tweet->getAllTweets();
-        dd($tweets);
 
         return view('top.index', compact('tweets'));
     }
@@ -76,7 +75,7 @@ class TweetController extends Controller
      *
      * @param Request $request
      * @param string $userId
-     * 
+     *
      * @return RedirectResponse
      */
     public function update(TweetRequest $request, string $userId): RedirectResponse
