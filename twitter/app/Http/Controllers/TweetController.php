@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Tweet;
 use App\Http\Requests\TweetRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -46,9 +45,22 @@ class TweetController extends Controller
     }
 
     /**
+     * トップ画面を表示（ツイート一覧情報を取得して出力）
+     *
+     * @return view
+     */
+    public function index(): view
+    {
+        $tweets = $this->tweet->getAllTweets();
+
+        return view('top.index', compact('tweets'));
+    }
+
+    /**
      * ツイート詳細画面に遷移
      *
      * @param string $userId
+     *
      * @return view
      */
     public function findByTweetId(string $userId): view
@@ -56,5 +68,21 @@ class TweetController extends Controller
         $tweet = $this->tweet->getTweet($userId);
 
         return view('tweet.show', compact('tweet'));
+    }
+
+    /**
+     * ツイート編集の情報を受け取リ、モデルに流す。
+     *
+     * @param Request $request
+     * @param string $userId
+     *
+     * @return RedirectResponse
+     */
+    public function update(TweetRequest $request, string $userId): RedirectResponse
+    {
+        $content = $request->input('content');
+        $update = $this->tweet->updateTweet($content, $userId);
+
+        return redirect()->route('tweets.show');
     }
 }
