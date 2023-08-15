@@ -52,4 +52,17 @@ class Tweet extends Model
 
         return $tweets;
     }
+
+    /**
+     *　Pathパラメータの'/users/{id}'のIDと一致したレコードを取得
+     *
+     * @param string $userId
+     * @return  Tweet
+     */
+    public function getTweet(string $userId): Tweet
+    {
+        $tweet = Tweet::find($userId);
+
+        return $tweet;
+    }
 }

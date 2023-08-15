@@ -17,7 +17,7 @@ class UserController extends Controller
      * @var [User]
      */
     private $user;
-    
+
     public function __construct(User $user)
     {
         $this->user = $user;
@@ -88,7 +88,7 @@ class UserController extends Controller
     public function delete(): RedirectResponse
     {
         $this->user->delete();
-    
-        return redirect()->route('top');   
+
+        return redirect()->route('top');
     }
 }
