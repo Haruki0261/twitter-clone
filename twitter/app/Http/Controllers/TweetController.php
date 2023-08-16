@@ -85,4 +85,20 @@ class TweetController extends Controller
 
         return redirect()->route('tweets.show');
     }
+
+    /**
+     * 論理削除したツイート以外のデータを取得し、top画面に出力する。
+     *
+     * @param string $tweetId
+     *
+     * @return view
+     */
+    public function delete(string $tweetId): view
+    {
+        $this->tweet->tweetDelete($tweetId);
+
+        $tweets = Tweet::all();
+
+        return view('top.index', compact('tweets'));
+    }
 }

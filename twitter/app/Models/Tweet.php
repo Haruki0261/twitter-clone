@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tweet extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'tweets';
     protected $fillable = ['content', 'author_id'];
@@ -35,7 +37,7 @@ class Tweet extends Model
     {
         $tweet = new Tweet();
         $tweet->content = $content;
-        $tweet->authorId = $authorId;
+        $tweet->author_id = $authorId;
         $tweet->save();
 
         return $tweet;
@@ -80,5 +82,18 @@ class Tweet extends Model
         $tweet->save();
 
         return $tweet;
+    }
+
+
+    /**
+     * 投稿したツイートのidを見つけて、ツイートを削除する。
+     *
+     * @param string $tweetId
+     *
+     * @return void
+     */
+    public function tweetDelete(string $tweetId)
+    {
+        Tweet::find($tweetId)->delete();
     }
 }
