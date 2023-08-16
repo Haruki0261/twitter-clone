@@ -79,8 +79,14 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Close</button>
+
                                         @if ($tweet->author_id == Auth::id())
-                                        <a href="{{ route('tweet.delete', ['id' => $tweet->id]) }}" class='btn btn-danger'>削除</a>
+                                            <form action="{{ route('tweet.delete') }}" method="post">
+                                                @method('put')
+                                                @csrf
+                                                <input type="hidden" name="tweetId" value="{{ $tweet->id }}">
+                                                <button type="submit" class="btn btn-danger">削除</button>
+                                            </form>
                                         @else
                                             <button type="button" class="btn btn-danger" disabled>削除</button>
                                         @endif

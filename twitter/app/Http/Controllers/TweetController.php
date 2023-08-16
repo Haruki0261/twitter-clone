@@ -7,6 +7,7 @@ use App\Http\Requests\TweetRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class TweetController extends Controller
 {
@@ -87,18 +88,17 @@ class TweetController extends Controller
     }
 
     /**
-     * 論理削除したツイート以外のデータを取得し、top画面に出力する。
+     * ツイートの投稿idをフォーム（hidden)から取得した。
      *
-     * @param string $tweetId
-     *
-     * @return view
+     * @param Request $request
+     * 
+     * @return RedirectResponse
      */
-    public function delete(string $tweetId): view
+    public function delete(Request $request): RedirectResponse
     {
+        $tweetId = $request->input('tweetId');
         $this->tweet->tweetDelete($tweetId);
 
-        $tweets = Tweet::all();
-
-        return view('top.index', compact('tweets'));
+        return redirect()->route('tweets.show');
     }
 }

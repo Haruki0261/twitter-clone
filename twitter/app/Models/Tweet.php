@@ -46,7 +46,7 @@ class Tweet extends Model
     /**
      * ツイートテーブルから情報を取得する
      *
-     * @return　Collection
+     * @return Collection
      */
     public function getAllTweets(): Collection
     {
@@ -56,7 +56,7 @@ class Tweet extends Model
     }
 
     /**
-     *　Pathパラメータの'/users/{id}'のIDと一致したレコードを取得
+     * Pathパラメータの'/users/{id}'のIDと一致したレコードを取得
      *
      * @param string $userId
      * @return  Tweet
@@ -88,11 +88,11 @@ class Tweet extends Model
     /**
      * 投稿したツイートのidを見つけて、ツイートを削除する。
      *
-     * @param string $tweetId
+     * @param int $tweetId
      *
      * @return void
      */
-    public function tweetDelete(string $tweetId)
+    public function tweetDelete(int $tweetId): void
     {
         Tweet::find($tweetId)->delete();
     }
