@@ -82,12 +82,23 @@ class TweetController extends Controller
      *
      * @return RedirectResponse
      */
-    public function update(TweetRequest $request, string $userId): RedirectResponse
+    public function update(TweetRequest $request, string $tweetId): RedirectResponse
     {
-        $content = $request->input('content');
-        $update = $this->tweet->updateTweet($content, $userId);
+        try {
+            $flashMessage = "ツイート編集に失敗しました。";
 
-        return redirect()->route('tweets.show');
+            if ($this->isUserPost($tweetId)) {
+                $content = $request->input('content');
+                $this->tweet->updateTweet($content, $tweetId);
+
+                $flashMessage = 'ツイートが編集されました。';
+            }
+
+            return redirect()->route('tweets.show')->with('flashMessage', $flashMessage);
+
+        } catch (Exception $e) {
+            return redirect()->route('tweets.show')->with('flashMessage', "ツイート編集にエラーが発生しました。");
+        }
     }
 
     /**

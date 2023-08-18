@@ -78,21 +78,20 @@ class Tweet extends Model
     public function updateTweet(string $content, string $userId): Tweet
     {
         $tweet = Tweet::find($userId);
-        $content = $tweet->content = $content;
+        $tweet->content = $content;
         $tweet->save();
 
         return $tweet;
     }
 
-
     /**
-     * 投稿したツイートのidを見つけて、ツイートを削除する。
+     * ＄tweetIdに一致したデータを削除する
      *
-     * @param int $tweetId
+     * @param string $tweetId
      *
      * @return void
      */
-    public function tweetDelete(int $tweetId): void
+    public function tweetDelete(string $tweetId): void
     {
         Tweet::find($tweetId)->delete();
     }
