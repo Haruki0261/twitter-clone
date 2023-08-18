@@ -29,7 +29,7 @@ class TweetController extends Controller
      */
     public function showTweetForm(): view
     {
-        return view('tweet.create');
+        return view("tweet.create");
     }
 
     /**
@@ -42,10 +42,10 @@ class TweetController extends Controller
     public function create(TweetRequest $request): RedirectResponse
     {
         $authorId = Auth::id();
-        $content = $request->input('content');
+        $content = $request->input("content");
         $this->tweet->create($authorId, $content);
 
-        return redirect()->route('tweets.show');
+        return redirect()->route("tweets.show");
     }
 
     /**
@@ -57,7 +57,7 @@ class TweetController extends Controller
     {
         $tweets = $this->tweet->getAllTweets();
 
-        return view('top.index', compact('tweets'));
+        return view("top.index", compact("tweets"));
     }
 
     /**
@@ -71,7 +71,7 @@ class TweetController extends Controller
     {
         $tweet = $this->tweet->getTweet($userId);
 
-        return view('tweet.show', compact('tweet'));
+        return view("tweet.show", compact('tweet'));
     }
 
     /**
@@ -94,10 +94,10 @@ class TweetController extends Controller
                 $flashMessage = 'ツイートが編集されました。';
             }
 
-            return redirect()->route('tweets.show')->with('flashMessage', $flashMessage);
+            return redirect()->route("tweets.show")->with("flashMessage", $flashMessage);
 
         } catch (Exception $e) {
-            return redirect()->route('tweets.show')->with('flashMessage', "ツイート編集にエラーが発生しました。");
+            return redirect()->route("tweets.show")->with("flashMessage", "ツイート編集にエラーが発生しました。");
         }
     }
 
@@ -118,18 +118,25 @@ class TweetController extends Controller
     /**
      * もし投稿者と認証中の人間が一致していたら、削除処理を行う
      *
-     * @param [type] $tweetId
-     * @return void
+     * @param string $tweetId
+     *
+     * @return RedirectResponse
      */
-    public function delete($tweetId)
+    public function delete(string $tweetId): RedirectResponse
     {
         try {
+            $flashMessage = "ツイート削除に失敗しました。";
+
             if ($this->isUserPost($tweetId)) {
                 $this->tweet->tweetDelete($tweetId);
+
+                $flashMessage = "ツイート削除に成功しました。";
             }
+
+            return redirect()->route("tweets.show")->with("flashMessage", $flashMessage);
+
         } catch (Exception $e) {
-            return redirect()->route('tweets.show')->with('flashMassage', "ツイート削除に失敗しました。");
+            return redirect()->route("tweets.show")->with("flashMessage", "ツイート削除にエラーが発生しました。");
         }
-        return redirect()->route('tweets.show')->with('flashMessage', 'ツイートが削除されました。');
     }
 }
