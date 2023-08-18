@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,7 +45,7 @@ Route::group(['prefix' => 'tweet', 'middleware' => 'auth'], function (){
     //ツイートを更新して、ツイート一覧表示に遷移
     Route::put('/{id}/update', [App\Http\Controllers\TweetController::class, 'update'])->name('tweet.update');
     //ツイートを削除する
-    Route::put('/delete', [App\Http\Controllers\TweetController::class, 'delete'])->name('tweet.delete');
+    Route::put('{id}/delete', [App\Http\Controllers\TweetController::class, 'delete'])->name('tweet.delete');
 });
 
 

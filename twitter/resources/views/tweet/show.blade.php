@@ -41,7 +41,7 @@
                                                 </ul>
                                             </div>
                                         @endif
-                                    <form action="{{ route('tweet.update', ['id' => $tweet->id]) }}" method="post">
+                                        <form action="{{ route('tweet.update', ['id' => $tweet->id]) }}" method="post">
                                             @method('put')
                                             @csrf
                                             <input type="text" class="form-control input-lg" name="content"
@@ -61,8 +61,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                            data-bs-target="#delete">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete">
                             削除
                         </button>
                         <!-- Modal -->
@@ -81,10 +80,10 @@
                                             data-bs-dismiss="modal">Close</button>
 
                                         @if ($tweet->author_id == Auth::id())
-                                            <form action="{{ route('tweet.delete') }}" method="post">
+                                            <form class="delete-form"
+                                                action="{{ route('tweet.delete', ['id' => $tweet->id]) }}" method="post">
                                                 @method('put')
                                                 @csrf
-                                                <input type="hidden" name="tweetId" value="{{ $tweet->id }}">
                                                 <button type="submit" class="btn btn-danger">削除</button>
                                             </form>
                                         @else

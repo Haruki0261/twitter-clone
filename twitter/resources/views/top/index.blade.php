@@ -10,6 +10,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-9">
+            @if (session('flashMessage'))
+            <div class="flash_message">
+                {{ session('flashMessage') }}
+            </div>
+            @endif
             @foreach ($tweets as $tweet)
                 @if($tweet->user)
                 <a href="{{ route('tweet.details', ['id' => $tweet->id]) }}" class="text-reset text-decoration-none">
