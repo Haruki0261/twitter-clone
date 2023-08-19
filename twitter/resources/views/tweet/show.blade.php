@@ -23,7 +23,6 @@
                             data-bs-target="#staticBackdrop">
                             編集
                         </button>
-
                         <!-- Modal -->
                         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
                             tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -42,7 +41,7 @@
                                                 </ul>
                                             </div>
                                         @endif
-                                    <form action="{{ route('tweet.update', ['id' => $tweet->id]) }}" method="post">
+                                        <form action="{{ route('tweet.update', ['id' => $tweet->id]) }}" method="post">
                                             @method('put')
                                             @csrf
                                             <input type="text" class="form-control input-lg" name="content"
@@ -55,6 +54,40 @@
                                             <button type="submit" class="btn btn-primary">編集</button>
                                         @else
                                             <button type="button" class="btn btn-primary" disabled>編集</button>
+                                        @endif
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete">
+                            削除
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="delete" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header d-block text-center">
+                                        <h5 class="modal-title" id="staticBackdropLabel">削除確認</h5>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        本当に削除してもいいですか？
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+
+                                        @if ($tweet->author_id == Auth::id())
+                                            <form class="delete-form"
+                                                action="{{ route('tweet.delete', ['id' => $tweet->id]) }}" method="post">
+                                                @method('put')
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger">削除</button>
+                                            </form>
+                                        @else
+                                            <button type="button" class="btn btn-danger" disabled>削除</button>
                                         @endif
                                     </div>
                                     </form>

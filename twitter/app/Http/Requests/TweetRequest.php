@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+
 class TweetRequest extends FormRequest
 {
     /**
@@ -23,8 +24,9 @@ class TweetRequest extends FormRequest
      */
     public function rules()
     {
+
         return[
-            'content' => 'required|string|max:140',
+            'content' => ['required', 'string', 'max:' . config('validation.TWEET_CONTENT.MAX')],
         ];
     }
     public function messages()
@@ -32,7 +34,7 @@ class TweetRequest extends FormRequest
         return [
             'content.required' => '必ず入力してね',
             'content.string' => '必ず文字列で入力しようね',
-            'content.max' => '140文字以下にせんかい',
+            'content.max' => config('validation.TWEET_CONTENT.MAX')."文字以下にせんかい",
         ];
     }
 }

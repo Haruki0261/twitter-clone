@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tweet extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'tweets';
     protected $fillable = ['content', 'author_id'];
@@ -35,7 +37,7 @@ class Tweet extends Model
     {
         $tweet = new Tweet();
         $tweet->content = $content;
-        $tweet->authorId = $authorId;
+        $tweet->author_id = $authorId;
         $tweet->save();
 
         return $tweet;
@@ -44,7 +46,7 @@ class Tweet extends Model
     /**
      * ツイートテーブルから情報を取得する
      *
-     * @return　Collection
+     * @return Collection
      */
     public function getAllTweets(): Collection
     {
@@ -54,7 +56,7 @@ class Tweet extends Model
     }
 
     /**
-     *　Pathパラメータの'/users/{id}'のIDと一致したレコードを取得
+     * Pathパラメータの'/users/{id}'のIDと一致したレコードを取得
      *
      * @param string $userId
      * @return  Tweet
@@ -76,9 +78,21 @@ class Tweet extends Model
     public function updateTweet(string $content, string $userId): Tweet
     {
         $tweet = Tweet::find($userId);
-        $content = $tweet->content = $content;
+        $tweet->content = $content;
         $tweet->save();
 
         return $tweet;
+    }
+
+    /**
+     * ＄tweetIdに一致したデータを削除する
+     *
+     * @param string $tweetId
+     *
+     * @return void
+     */
+    public function tweetDelete(string $tweetId): void
+    {
+        Tweet::find($tweetId)->delete();
     }
 }

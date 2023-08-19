@@ -6,22 +6,22 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <h3>Edit Profile</h3>
-        </div> 
-    </div>
-    <div class="row justify-content-center">   
-        <div class="col-md-7">
-            @if ($errors->any())  
-                <ul>  
-                    @foreach ($errors->all() as $error)  
-                        <li>{{ $error }}</li>  
-                    @endforeach  
-                </ul>  
-            @endif  
         </div>
-    </div>    
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            @if ($errors->any())
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
+        </div>
+    </div>
         <div class="row justify-content-center">
             <div class="col-md-8 col-md-offset-1">
-                <form action="{{ route('user.update', [ 'id' => Auth::id()]) }}" method="post">  
+                <form action="{{ route('user.update', [ 'id' => Auth::id()]) }}" method="post">
                     @method('put')
                     @csrf
                     <div class="form-group">
