@@ -20,6 +20,7 @@ Route::get('/', [App\Http\Controllers\TopController::class, 'index'])->name('top
 Auth::routes();
 Auth::routes(['verify' => true]);
 
+//ユーザー関連(フォローも含む)
 Route::group(['middleware' => 'auth'], function () {
     //ユーザー詳細画面
     Route::get('/users/{id}',[App\Http\Controllers\UserController::class, 'findByUserId'])->name('users.findByUserId');
@@ -31,8 +32,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user/show', [App\Http\Controllers\UserController::class, 'getAll'])->name('users.index');
     // ユーザー削除
     Route::get('/user/delete', [App\Http\Controllers\UserController::class, 'delete'])->name('user.delete');
+    //フォロー機能
+    Route::post('/user/{id}/follow', [App\Http\Controllers\UserController::class, 'follow'])->name('user.follow');
+    //フォロー解除
+    Route::delete('/user/{id}/cancelFollow', [App\Http\Controllers\UserController::class, 'cancelFollow'])->name('user.cancelFollow');
 });
 
+//ツイート関連
 Route::group(['prefix' => 'tweet', 'middleware' => 'auth'], function (){
     //ツイート投稿画面に遷移
     Route::get('/create', [App\Http\Controllers\TweetController::class, 'showTweetForm'])->name('tweets.showForm');
@@ -47,6 +53,3 @@ Route::group(['prefix' => 'tweet', 'middleware' => 'auth'], function (){
     //ツイートを削除する
     Route::put('{id}/delete', [App\Http\Controllers\TweetController::class, 'delete'])->name('tweet.delete');
 });
-
-
-

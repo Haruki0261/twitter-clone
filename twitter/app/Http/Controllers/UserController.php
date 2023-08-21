@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\User;
+use App\Models\Follower;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
@@ -15,13 +16,16 @@ class UserController extends Controller
     /**
      * インスタンスの生成
      *
-     * @var [User]
+     *
      */
     private $user;
+    private $follower;
 
-    public function __construct(User $user)
+    public function __construct(User $user, Follower $follower)
     {
         $this->user = $user;
+        $this->follower = $follower;
+
     }
 
     /**
@@ -92,4 +96,27 @@ class UserController extends Controller
 
         return redirect()->route('top');
     }
+
+    /**
+     * フォロー
+     *
+     * @param [type] $userId
+     * @return void
+     */
+    public function follow($userId)
+    {
+        $isFollowing = $this->follower->isFollowing($userId);
+        if(!$isFollowing){
+            $this->follower->follow($userId);
+
+            return redirect()->route('users.index');
+        }
+    }
+
+    public function cancelFollow($userId)
+    {
+        $isFollowing = $this->follower->isFollowing($userId);
+
+    }
 }
+

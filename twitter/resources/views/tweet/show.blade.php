@@ -79,7 +79,7 @@
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Close</button>
 
-                                        @if ($tweet->author_id == Auth::id())
+                                            @if ($tweet->author_id == Auth::id())
                                             <form class="delete-form"
                                                 action="{{ route('tweet.delete', ['id' => $tweet->id]) }}" method="post">
                                                 @method('put')
