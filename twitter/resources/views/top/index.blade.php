@@ -5,7 +5,7 @@
 @auth
 <div>
     <a href="{{ route('users.findByUserId', ['id' => Auth::id()]) }}" class ="btn btn-light">マイページ</a><br>
-    <a href="{{ route('users.index')}}" class ="btn btn-light">ユーザー一覧</a>
+    <a href="{{ route('users.index') }}" class ="btn btn-light">ユーザー一覧</a>
 </div>
 <div class="container">
     <div class="row justify-content-center">
@@ -15,7 +15,7 @@
                 {{ session('flashMessage') }}
             </div>
             @endif
-            @foreach ($tweets as $tweet)
+            @foreach($tweets as $tweet)
                 @if($tweet->user)
                 <a href="{{ route('tweet.details', ['id' => $tweet->id]) }}" class="text-reset text-decoration-none">
                     <div class="card">

@@ -16,10 +16,11 @@ class Follower extends Model
     /**
      * フォローをしたユーザーのidとフォローをされたユーザーのidをFollowerテーブルに入れる
      *
-     * @param [type] $userId
+     * @param int $userId
+     *
      * @return void
      */
-    public function Follow($userId)
+    public function Follow(int $userId): void
     {
         $follower = new Follower();
         $follower->following_id = Auth::id();
@@ -30,14 +31,39 @@ class Follower extends Model
     /**
      * フォローしているかどうかの判別
      *
-     * @param [type] $userId
+     * @param int $userId
+     *
      * @return boolean
      */
-    public function isFollowing($userId)
+    // $userIdの意味がわかりづらい
+    public function isFollowing(int $followedUserId): bool
     {
-        $follower = new Follower();
 
-        return $follower->where('followed_id', $userId)->first(['id']);
+        // followerテーブルを参照
+         // followed_idカラムの値と、$userIdが一致するかどうか
+        // following_idカラムの値と、ログインユーザーのIDが一致するかどうか
+        return Follower::where([
+            ['following_id', Auth::id()],
+            ['followed_id', $followedUserId],
+            ])->exists();
+    }
+
+
+    /**
+     *  フォローをしたユーザーのidとフォローをされたユーザーのidを削除する
+     *
+     * @param integer $followedUserId
+     *
+     * @return void
+     */
+    // フォローをしたユーザーのidとフォローをされたユーザーのidを削除する
+    // followed_idカラムの値と、Auth::id()一致し、following_idカラムの値と$followedUserIdが一致するカラムを削除する
+    public function unFollow(int $followedUserId): void
+    {
+        Follower::where([
+            ['following_id', Auth::id()],
+            ['followed_id', $followedUserId],
+        ])->delete();
     }
 }
 

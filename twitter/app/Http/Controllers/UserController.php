@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
@@ -81,6 +82,10 @@ class UserController extends Controller
     public function getAll(): view
     {
         $users = $this->user->getAllUser();
+        foreach($users as $user){
+            $isFollowing = $this->follower->isFollowing($user->id);
+            $user['isFollowing'] = $isFollowing;
+            }
 
         return view('user.index', compact('users'));
     }
@@ -94,29 +99,32 @@ class UserController extends Controller
     {
         $this->user->delete();
 
+
         return redirect()->route('top');
     }
 
     /**
-     * フォロー
+     * フォローする
      *
-     * @param [type] $userId
-     * @return void
+     * @param int $userId
+     * 
+     * @return RedirectResponse
      */
-    public function follow($userId)
+    public function follow($followedUserId): RedirectResponse
     {
-        $isFollowing = $this->follower->isFollowing($userId);
-        if(!$isFollowing){
-            $this->follower->follow($userId);
+        // isFollowing()がtrue → フォローしてる
+        // isFollowing()がfalse → フォローしてない
+        // if(!$isFollowing){
+            $this->follower->follow($followedUserId);
 
             return redirect()->route('users.index');
-        }
     }
 
-    public function cancelFollow($userId)
+    public function unFollow($followedUserId)
     {
-        $isFollowing = $this->follower->isFollowing($userId);
+        $this->follower->unFollow($followedUserId);
 
+        return redirect()->route('users.index');
     }
 }
 
