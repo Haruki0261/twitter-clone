@@ -139,8 +139,8 @@ class UserController extends Controller
      */
     public function getFollowingUsers(): view
     {
-        $followings = Follower::with('users')->get();
+        $follows = $this->follower->getAllFollowData();
 
-        return view('user.following', compact('followings'));
+        return view('user.following', compact('follows'));
     }
 }
