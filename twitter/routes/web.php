@@ -32,9 +32,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user/show', [App\Http\Controllers\UserController::class, 'getAll'])->name('users.index');
     // ユーザー削除
     Route::get('/user/delete', [App\Http\Controllers\UserController::class, 'delete'])->name('user.delete');
-    //フォロー機能
+    //フォローする機能
     Route::post('/user/{id}/follow', [App\Http\Controllers\UserController::class, 'follow'])->name('user.follow');
-    
     //フォロー解除
     Route::delete('/user/{id}/cancelFollow', [App\Http\Controllers\UserController::class, 'unFollow'])->name('user.unFollow');
 });

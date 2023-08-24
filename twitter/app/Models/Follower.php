@@ -38,7 +38,6 @@ class Follower extends Model
     // $userIdの意味がわかりづらい
     public function isFollowing(int $followedUserId): bool
     {
-
         // followerテーブルを参照
          // followed_idカラムの値と、$userIdが一致するかどうか
         // following_idカラムの値と、ログインユーザーのIDが一致するかどうか
@@ -52,7 +51,7 @@ class Follower extends Model
     /**
      *  フォローをしたユーザーのidとフォローをされたユーザーのidを削除する
      *
-     * @param integer $followedUserId
+     * @param int $followedUserId
      *
      * @return void
      */

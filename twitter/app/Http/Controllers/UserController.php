@@ -9,15 +9,13 @@ use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
+
+
 
 class UserController extends Controller
 {
     /**
      * インスタンスの生成
-     *
-     *
      */
     private $user;
     private $follower;
@@ -62,6 +60,7 @@ class UserController extends Controller
      *
      * @param UpdateUserRequest $request
      * @param string $userId
+     *
      * @return RedirectResponse
      */
     public function update(UpdateUserRequest $request, string $userId): RedirectResponse
@@ -99,7 +98,6 @@ class UserController extends Controller
     {
         $this->user->delete();
 
-
         return redirect()->route('top');
     }
 
@@ -107,10 +105,10 @@ class UserController extends Controller
      * フォローする
      *
      * @param int $userId
-     * 
+     *
      * @return RedirectResponse
      */
-    public function follow($followedUserId): RedirectResponse
+    public function follow(int $followedUserId): RedirectResponse
     {
         // isFollowing()がtrue → フォローしてる
         // isFollowing()がfalse → フォローしてない
@@ -120,7 +118,14 @@ class UserController extends Controller
             return redirect()->route('users.index');
     }
 
-    public function unFollow($followedUserId)
+    /**
+     * フォロー解除する
+     *
+     * @param int $followedUserId
+     *
+     * @return RedirectResponse
+     */
+    public function unFollow(int $followedUserId): RedirectResponse
     {
         $this->follower->unFollow($followedUserId);
 
