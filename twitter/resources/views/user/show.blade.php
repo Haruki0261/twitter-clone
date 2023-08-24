@@ -10,6 +10,7 @@
             <th class="text-center">名前</th>
             <th class="text-center">メールアドレス</th>
             <th class="text-center">入会日</th>
+            <th class="text-center">フォロー</th>
             </tr>
             <tr>
             <td>
@@ -18,6 +19,8 @@
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
             <td>{{ $user->created_at }}</td>
+            <td><a href="{{ route('followingUser')}}" class="text-reset text-decoration-none">
+                {{ $followCount}}</td>
                 <td>
                 <a href="{{ route('user.showEdit') }}" class='btn btn-light'>編集</a>
                 <!-- Button trigger modal -->

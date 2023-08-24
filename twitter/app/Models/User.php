@@ -104,4 +104,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tweet::class, 'author_id', 'id');
     }
+
+    /**
+     * リレーション（UserテーブルのidとFollowerテーブルのfollowed_idを紐づける。）
+     *
+     * @return hasMany
+     */
+    public function followers(): hasMany
+    {
+        return $this->hasMany(Follower::class, 'followed_id', 'id');
+    }
 }

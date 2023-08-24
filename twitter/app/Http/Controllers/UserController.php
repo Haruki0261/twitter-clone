@@ -24,7 +24,6 @@ class UserController extends Controller
     {
         $this->user = $user;
         $this->follower = $follower;
-
     }
 
     /**
@@ -35,12 +34,13 @@ class UserController extends Controller
      */
     public function findByUserId(string $id): RedirectResponse|View
     {
-        if(Auth::id() !== (int)$id){
+        if (Auth::id() !== (int)$id) {
             return redirect()->route('top');
         }
         $user = $this->user->findByUserId($id);
+        $followCount = $this->follower->getFollowCount();
 
-        return view('user.show', compact('user'));
+        return view('user.show', compact('user', 'followCount'));
     }
 
     /**
@@ -50,7 +50,7 @@ class UserController extends Controller
      */
     public function showEdit(): view
     {
-        $user = auth()->user();//認証しているユーザーの情報
+        $user = auth()->user(); //認証しているユーザーの情報
 
         return view('user.edit', compact('user'));
     }
@@ -81,10 +81,10 @@ class UserController extends Controller
     public function getAll(): view
     {
         $users = $this->user->getAllUser();
-        foreach($users as $user){
+        foreach ($users as $user) {
             $isFollowing = $this->follower->isFollowing($user->id);
             $user['isFollowing'] = $isFollowing;
-            }
+        }
 
         return view('user.index', compact('users'));
     }
@@ -113,9 +113,9 @@ class UserController extends Controller
         // isFollowing()がtrue → フォローしてる
         // isFollowing()がfalse → フォローしてない
         // if(!$isFollowing){
-            $this->follower->follow($followedUserId);
+        $this->follower->follow($followedUserId);
 
-            return redirect()->route('users.index');
+        return redirect()->route('users.index');
     }
 
     /**
@@ -131,5 +131,16 @@ class UserController extends Controller
 
         return redirect()->route('users.index');
     }
-}
 
+    /**
+     * フォロー一覧表示
+     *
+     * @return view
+     */
+    public function getFollowingUsers(): view
+    {
+        $followings = Follower::with('users')->get();
+
+        return view('user.following', compact('followings'));
+    }
+}
