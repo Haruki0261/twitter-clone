@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
-
-
 class UserController extends Controller
 {
     /**
@@ -19,7 +17,6 @@ class UserController extends Controller
      */
     private $user;
     private $follower;
-
     public function __construct(User $user, Follower $follower)
     {
         $this->user = $user;
@@ -104,16 +101,14 @@ class UserController extends Controller
     /**
      * フォローする
      *
-     * @param int $userId
+     * @param int $followedUserId
      *
      * @return RedirectResponse
      */
     public function follow(int $followedUserId): RedirectResponse
     {
-        // isFollowing()がtrue → フォローしてる
-        // isFollowing()がfalse → フォローしてない
-        // if(!$isFollowing){
-        $this->follower->follow($followedUserId);
+        
+            $this->follower->follow($followedUserId);
 
         return redirect()->route('users.index');
     }

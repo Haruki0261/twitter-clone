@@ -33,7 +33,7 @@ class Follower extends Model
      *
      * @return void
      */
-    public function Follow(int $userId): void
+    public function follow(int $userId): void
     {
         $follower = new Follower();
         $follower->following_id = Auth::id();
@@ -44,20 +44,16 @@ class Follower extends Model
     /**
      * フォローしているかどうかの判別
      *
-     * @param int $userId
+     * @param int $followedUserId
      *
      * @return boolean
      */
-    // $userIdの意味がわかりづらい
     public function isFollowing(int $followedUserId): bool
     {
-        // followerテーブルを参照
-         // followed_idカラムの値と、$userIdが一致するかどうか
-        // following_idカラムの値と、ログインユーザーのIDが一致するかどうか
         return Follower::where([
             ['following_id', Auth::id()],
             ['followed_id', $followedUserId],
-            ])->exists();
+        ])->exists();
     }
 
 
@@ -68,8 +64,6 @@ class Follower extends Model
      *
      * @return void
      */
-    // フォローをしたユーザーのidとフォローをされたユーザーのidを削除する
-    // followed_idカラムの値と、Auth::id()一致し、following_idカラムの値と$followedUserIdが一致するカラムを削除する
     public function unFollow(int $followedUserId): void
     {
         Follower::where([
