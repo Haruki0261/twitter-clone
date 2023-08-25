@@ -25,6 +25,15 @@ class Follower extends Model
         return $this->belongsTo(User::class, 'followed_id', 'id');
     }
 
+    /**
+     * リレーション（FollowerテーブルのFollowing_idとUserテーブルのidを紐付ける）
+     *
+     * @return void
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'following_id', 'id');
+    }
 
     /**
      * フォローをしたユーザーのidとフォローをされたユーザーのidをFollowerテーブルに入れる
@@ -33,7 +42,7 @@ class Follower extends Model
      *
      * @return void
      */
-    public function Follow(int $userId): void
+    public function follow(int $userId): void
     {
         $follower = new Follower();
         $follower->following_id = Auth::id();
@@ -44,22 +53,18 @@ class Follower extends Model
     /**
      * フォローしているかどうかの判別
      *
-     * @param int $userId
+     * @param int $followedUserId
      *
      * @return boolean
      */
     // $userIdの意味がわかりづらい
     public function isFollowing(int $followedUserId): bool
     {
-        // followerテーブルを参照
-         // followed_idカラムの値と、$userIdが一致するかどうか
-        // following_idカラムの値と、ログインユーザーのIDが一致するかどうか
         return Follower::where([
             ['following_id', Auth::id()],
             ['followed_id', $followedUserId],
             ])->exists();
     }
-
 
     /**
      *  フォローをしたユーザーのidとフォローをされたユーザーのidを削除する
@@ -68,8 +73,6 @@ class Follower extends Model
      *
      * @return void
      */
-    // フォローをしたユーザーのidとフォローをされたユーザーのidを削除する
-    // followed_idカラムの値と、Auth::id()一致し、following_idカラムの値と$followedUserIdが一致するカラムを削除する
     public function unFollow(int $followedUserId): void
     {
         Follower::where([
@@ -98,6 +101,18 @@ class Follower extends Model
     public function getAllFollowData(): collection
     {
         return Follower::with('users')->get();
+    }
+
+    /**
+     * フォロワーの数を数える
+     *
+     * @return void
+     */
+    public function getFollowedCount()
+    {
+        return Follower::where([
+            ['followed_id', Auth::id()],
+        ])->count();
     }
 }
 

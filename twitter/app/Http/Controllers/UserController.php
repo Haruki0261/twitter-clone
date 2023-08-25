@@ -6,11 +6,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Follower;
 use App\Http\Requests\UpdateUserRequest;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-
-
 
 class UserController extends Controller
 {
@@ -19,7 +18,6 @@ class UserController extends Controller
      */
     private $user;
     private $follower;
-
     public function __construct(User $user, Follower $follower)
     {
         $this->user = $user;
@@ -30,17 +28,19 @@ class UserController extends Controller
      * ユーザー詳細画面を表示します。
      *
      * @param string $id
-     * @return RedirectResponse|View
+     * @return View
      */
-    public function findByUserId(string $id): RedirectResponse|View
+    public function findByUserId(string $id): View
     {
         if (Auth::id() !== (int)$id) {
             return redirect()->route('top');
         }
         $user = $this->user->findByUserId($id);
         $followCount = $this->follower->getFollowCount();
+        $followedCount = $this->follower->getFollowedCount();
 
-        return view('user.show', compact('user', 'followCount'));
+
+        return view('user.show', compact('user', 'followCount', 'followedCount'));
     }
 
     /**
@@ -104,15 +104,12 @@ class UserController extends Controller
     /**
      * フォローする
      *
-     * @param int $userId
+     * @param int $followedUserId
      *
      * @return RedirectResponse
      */
     public function follow(int $followedUserId): RedirectResponse
     {
-        // isFollowing()がtrue → フォローしてる
-        // isFollowing()がfalse → フォローしてない
-        // if(!$isFollowing){
         $this->follower->follow($followedUserId);
 
         return redirect()->route('users.index');
@@ -139,8 +136,30 @@ class UserController extends Controller
      */
     public function getFollowingUsers(): view
     {
-        $follows = $this->follower->getAllFollowData();
+        try{
+            $follows = $this->follower->getAllFollowData();
 
-        return view('user.following', compact('follows'));
+            return view('user.following', compact('follows'));
+        }catch (Exception $e){
+
+            return view('user.index');
+        }
+    }
+
+    /**
+     * フォロワー一覧表示
+     *
+     * @return view
+     */
+    public function getFollowedUsers(): view
+    {
+        try{
+            $follows = $this->follower->getAllFollowData();
+
+            return view('user.followed', compact('follows'));
+        }catch (Exception $e){
+
+            return view('user.index');
+        }
     }
 }

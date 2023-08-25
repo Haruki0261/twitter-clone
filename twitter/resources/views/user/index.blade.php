@@ -21,18 +21,12 @@
                     <td>{{ $user->created_at }}</td>
                     <td>
 
-                        {{-- フォローしているユーザーに対しては、フォロー解除ボタン  --}}
-                        {{--  フォローしてない <!-ユーザーに対しては、フォロー --}}
-                        {{-- isFollowingメソッドの判定によって、表示を切り替える
-                        →isFollowingメソッドを呼び出さないといけない --}}
-                        {{-- $user->idと、Auth::id()が一致した場合、ボタンを表示させない --}}
                     @if(!$user->isFollowing)
                         @if($user->id != Auth::id())
                         <form action="{{ route("user.follow", ["id" => $user->id]) }}" method="post">
                             @csrf
                         <button type="submit" class="btn btn-light">フォローする</button>
                         </form>
-                        {{-- もし、isFollowingメソッドがfalseだった場合、 --}}
                         @endif
                     @else
                     <form action="{{ route("user.unFollow", ["id" => $user->id]) }}" method="post">
