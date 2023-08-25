@@ -40,7 +40,7 @@ class Follower extends Model
         return Follower::where([
             ['following_id', Auth::id()],
             ['followed_id', $followedUserId],
-            ])->exists();
+        ])->exists();
     }
 
 
