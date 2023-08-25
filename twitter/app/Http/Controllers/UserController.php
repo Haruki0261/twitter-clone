@@ -4,24 +4,23 @@ namespace App\Http\Controllers;
 
 
 use App\Models\User;
+use App\Models\Follower;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     /**
      * インスタンスの生成
-     *
-     * @var [User]
      */
     private $user;
-
-    public function __construct(User $user)
+    private $follower;
+    public function __construct(User $user, Follower $follower)
     {
         $this->user = $user;
+        $this->follower = $follower;
     }
 
     /**
@@ -57,6 +56,7 @@ class UserController extends Controller
      *
      * @param UpdateUserRequest $request
      * @param string $userId
+     *
      * @return RedirectResponse
      */
     public function update(UpdateUserRequest $request, string $userId): RedirectResponse
@@ -77,6 +77,10 @@ class UserController extends Controller
     public function getAll(): view
     {
         $users = $this->user->getAllUser();
+        foreach($users as $user){
+            $isFollowing = $this->follower->isFollowing($user->id);
+            $user['isFollowing'] = $isFollowing;
+        }
 
         return view('user.index', compact('users'));
     }
@@ -92,4 +96,33 @@ class UserController extends Controller
 
         return redirect()->route('top');
     }
+
+    /**
+     * フォローする
+     *
+     * @param int $followedUserId
+     *
+     * @return RedirectResponse
+     */
+    public function follow(int $followedUserId): RedirectResponse
+    {
+        $this->follower->follow($followedUserId);
+
+        return redirect()->route('users.index');
+    }
+
+    /**
+     * フォロー解除する
+     *
+     * @param int $followedUserId
+     *
+     * @return RedirectResponse
+     */
+    public function unFollow(int $followedUserId): RedirectResponse
+    {
+        $this->follower->unFollow($followedUserId);
+
+        return redirect()->route('users.index');
+    }
 }
+
