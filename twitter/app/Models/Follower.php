@@ -20,7 +20,7 @@ class Follower extends Model
      *
      * @return void
      */
-    public function Follow(int $userId): void
+    public function follow(int $userId): void
     {
         $follower = new Follower();
         $follower->following_id = Auth::id();
@@ -31,7 +31,7 @@ class Follower extends Model
     /**
      * フォローしているかどうかの判別
      *
-     * @param int $userId
+     * @param int $followedUserId
      *
      * @return boolean
      */

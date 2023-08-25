@@ -21,7 +21,6 @@ class UserController extends Controller
     {
         $this->user = $user;
         $this->follower = $follower;
-
     }
 
     /**
@@ -81,7 +80,7 @@ class UserController extends Controller
         foreach($users as $user){
             $isFollowing = $this->follower->isFollowing($user->id);
             $user['isFollowing'] = $isFollowing;
-            }
+        }
 
         return view('user.index', compact('users'));
     }
