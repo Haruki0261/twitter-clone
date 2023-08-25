@@ -57,13 +57,12 @@ class Follower extends Model
      *
      * @return boolean
      */
-    // $userIdの意味がわかりづらい
     public function isFollowing(int $followedUserId): bool
     {
         return Follower::where([
             ['following_id', Auth::id()],
             ['followed_id', $followedUserId],
-            ])->exists();
+        ])->exists();
     }
 
     /**
