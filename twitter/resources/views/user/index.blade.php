@@ -20,7 +20,6 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->created_at }}</td>
                     <td>
-                        
                     @if(!$user->isFollowing)
                         @if($user->id != Auth::id())
                         <form action="{{ route("user.follow", ["id" => $user->id]) }}" method="post">

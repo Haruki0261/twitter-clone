@@ -107,8 +107,8 @@ class UserController extends Controller
      */
     public function follow(int $followedUserId): RedirectResponse
     {
-        
-            $this->follower->follow($followedUserId);
+
+        $this->follower->follow($followedUserId);
 
         return redirect()->route('users.index');
     }
