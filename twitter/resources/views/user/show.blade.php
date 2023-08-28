@@ -24,7 +24,6 @@
                 {{ $followCount }}</td>
             <td><a href="{{ route('followedUser')}}" class="text-reset text-decoration-none">
                 {{ $followedCount }}</td>
-
                 <td>
                 <a href="{{ route('user.showEdit') }}" class='btn btn-light'>編集</a>
                 <!-- Button trigger modal -->

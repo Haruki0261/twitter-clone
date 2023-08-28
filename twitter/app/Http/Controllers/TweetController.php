@@ -139,4 +139,25 @@ class TweetController extends Controller
             return redirect()->route("tweets.show")->with("flashMessage", "ツイート削除にエラーが発生しました。");
         }
     }
+
+    /**
+     * 投稿内容の検索
+     *
+     * @param Request $request
+     *
+     * @return view|RedirectResponse
+     */
+    public function searchByQuery(Request $request)
+    {
+        try{
+            $keyword = $request->input('search');
+
+            $tweets = $this->tweet->searchByQuery($keyword);
+
+            return view('top.index', compact('tweets'));
+        }catch(Exception $e){
+
+            return redirect()->route('top');
+        }
+    }
 }
