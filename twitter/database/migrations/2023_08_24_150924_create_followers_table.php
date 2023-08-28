@@ -28,6 +28,7 @@ return new class extends Migration
             ]);
 
             $table->foreign('followed_id')->references('id')->on('users');
+            $table->foreign('following_id')->references('id')->on('users');
         });
     }
 

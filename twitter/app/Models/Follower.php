@@ -25,6 +25,15 @@ class Follower extends Model
         return $this->belongsTo(User::class, 'followed_id', 'id');
     }
 
+    /**
+     * リレーション（FollowerテーブルのFollowing_idとUserテーブルのidを紐付ける）
+     *
+     * @return void
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'following_id', 'id');
+    }
 
     /**
      * フォローをしたユーザーのidとフォローをされたユーザーのidをFollowerテーブルに入れる
@@ -55,7 +64,6 @@ class Follower extends Model
             ['followed_id', $followedUserId],
         ])->exists();
     }
-
 
     /**
      *  フォローをしたユーザーのidとフォローをされたユーザーのidを削除する
@@ -92,6 +100,30 @@ class Follower extends Model
     public function getAllFollowData(): collection
     {
         return Follower::with('users')->get();
+    }
+
+    /**
+     * フォロワーの数を数える
+     *
+     * @return int
+     */
+    public function getFollowedCount(): int
+    {
+        return Follower::where([
+            ['followed_id', Auth::id()],
+        ])->count();
+    }
+
+    /**
+     * Followテーブルからフォロワーの情報を取ってくる。
+     *
+     * @return collection
+     */
+    public function getFollowedUsers(): collection
+    {
+        return Follower::where('followed_id', Auth::id())
+        ->with('user:id,name,email,created_at')
+        ->get('following_id');
     }
 }
 
