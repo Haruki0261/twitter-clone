@@ -17,10 +17,10 @@
             @endif
             <div class="row justify-content-center">
                 <div class="col-md-8 col-md-offset-1">
-                    <form action="{{ route('tweet.query') }}" method="get" class="">
+                    <form action="{{ route('tweet.query') }}" method="get">
                         @csrf
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="search" value="">
+                            <input type="text" class="form-control" name="search">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-light btn-outline-primary">検索</button>
                             </div>
