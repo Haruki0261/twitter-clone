@@ -105,9 +105,9 @@ class Follower extends Model
     /**
      * フォロワーの数を数える
      *
-     * @return collection
+     * @return int
      */
-    public function getFollowedCount(): collection
+    public function getFollowedCount(): int
     {
         return Follower::where([
             ['followed_id', Auth::id()],
