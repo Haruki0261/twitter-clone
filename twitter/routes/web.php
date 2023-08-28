@@ -36,6 +36,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/user/{id}/follow', [App\Http\Controllers\UserController::class, 'follow'])->name('user.follow');
     //フォロー解除
     Route::delete('/user/{id}/cancelFollow', [App\Http\Controllers\UserController::class, 'unFollow'])->name('user.unFollow');
+    //フォローしているユーザーの情報
+    Route::get('/user/following', [App\Http\Controllers\UserController::class, 'getFollowingUsers'])->name('followingUser');
+    //フォロワーの情報
+    Route::get('/user/followed', [App\Http\Controllers\UserController::class, 'getFollowedUsers'])->name('followedUser');
 });
 
 //ツイート関連

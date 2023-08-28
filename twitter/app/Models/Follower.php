@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 
 class Follower extends Model
 {
@@ -12,6 +14,26 @@ class Follower extends Model
 
     protected $table = 'followers';
     protected $fillable = ['following_id', 'followed_id'];
+
+    /**
+     * リレーション（FollowerテーブルのFollowed_idとUserテーブルのidを紐付ける）
+     *
+     * @return belongsTo
+     */
+    public function users(): belongsTo
+    {
+        return $this->belongsTo(User::class, 'followed_id', 'id');
+    }
+
+    /**
+     * リレーション（FollowerテーブルのFollowing_idとUserテーブルのidを紐付ける）
+     *
+     * @return void
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'following_id', 'id');
+    }
 
     /**
      * フォローをしたユーザーのidとフォローをされたユーザーのidをFollowerテーブルに入れる
@@ -43,7 +65,6 @@ class Follower extends Model
         ])->exists();
     }
 
-
     /**
      *  フォローをしたユーザーのidとフォローをされたユーザーのidを削除する
      *
@@ -57,6 +78,52 @@ class Follower extends Model
             ['following_id', Auth::id()],
             ['followed_id', $followedUserId],
         ])->delete();
+    }
+
+    /**
+     * フォローしている人の数を数える
+     *
+     * @return integer
+     */
+    public function getFollowCount(): int
+    {
+        return Follower::where([
+            ['following_id', Auth::id()],
+        ])->count();
+    }
+
+    /**
+     * Followテーブルから全てのデータを取得する
+     *
+     * @return collection
+     */
+    public function getAllFollowData(): collection
+    {
+        return Follower::with('users')->get();
+    }
+
+    /**
+     * フォロワーの数を数える
+     *
+     * @return int
+     */
+    public function getFollowedCount(): int
+    {
+        return Follower::where([
+            ['followed_id', Auth::id()],
+        ])->count();
+    }
+
+    /**
+     * Followテーブルからフォロワーの情報を取ってくる。
+     *
+     * @return collection
+     */
+    public function getFollowedUsers(): collection
+    {
+        return Follower::where('followed_id', Auth::id())
+        ->with('user:id,name,email,created_at')
+        ->get('following_id');
     }
 }
 
