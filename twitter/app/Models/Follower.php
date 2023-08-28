@@ -105,13 +105,25 @@ class Follower extends Model
     /**
      * フォロワーの数を数える
      *
-     * @return void
+     * @return collection
      */
-    public function getFollowedCount()
+    public function getFollowedCount(): collection
     {
         return Follower::where([
             ['followed_id', Auth::id()],
         ])->count();
+    }
+
+    /**
+     * Followテーブルからフォロワーの情報を取ってくる。
+     *
+     * @return collection
+     */
+    public function getFollowedUsers(): collection
+    {
+        return Follower::where('followed_id', Auth::id())
+        ->with('user:id,name,email,created_at')
+        ->get('following_id');
     }
 }
 

@@ -12,15 +12,13 @@
                         <th class="text-center">メールアドレス</th>
                         <th class="text-center">入会日</th>
                     </tr>
-                    @foreach($follows as $follow)
-                        @if($follow->following_id == Auth::id())
+                    @foreach($followers as $follower)
                             <tr>
-                                <td>{{ $follow->users->id }}</td>
-                                <td>{{ $follow->users->name }}</td>
-                                <td>{{ $follow->users->email }}</td>
-                                <td>{{ $follow->users->created_at }}</td>
+                                <td>{{ $follower->user->id }}</td>
+                                <td>{{ $follower->user->name }}</td>
+                                <td>{{ $follower->user->email }}</td>
+                                <td>{{ $follower->user->created_at }}</td>
                             </tr>
-                        @endif
                     @endforeach
                 </table>
         </div>

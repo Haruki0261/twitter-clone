@@ -134,7 +134,7 @@ class UserController extends Controller
      *
      * @return view
      */
-    public function getFollowingUsers(): view
+    public function getFollowingUsers(): view|RedirectResponse
     {
         try{
             $follows = $this->follower->getAllFollowData();
@@ -142,24 +142,24 @@ class UserController extends Controller
             return view('user.following', compact('follows'));
         }catch (Exception $e){
 
-            return view('user.index');
+            return redirect()->route('users.index');
         }
     }
 
     /**
      * フォロワー一覧表示
      *
-     * @return view
+     * @return view|RedirectResponse
      */
-    public function getFollowedUsers(): view
+    public function getFollowedUsers(): view|RedirectResponse
     {
         try{
-            $follows = $this->follower->getAllFollowData();
-
-            return view('user.followed', compact('follows'));
+            $followers = $this->follower->getFollowedUsers();
+            
+            return view('user.followed', compact('followers'));
         }catch (Exception $e){
 
-            return view('user.index');
+            return redirect()->route('users.index');
         }
     }
 }
