@@ -16,6 +16,17 @@
             </div>
             @endif
             <div class="row justify-content-center">
+                <div class="col-md-7">
+                    @if ($errors->any())
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+            </div>
+            <div class="row justify-content-center">
                 <div class="col-md-8 col-md-offset-1">
                     <form action="{{ route('tweet.query') }}" method="get">
                         @csrf

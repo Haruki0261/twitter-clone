@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tweet;
 use App\Http\Requests\TweetRequest;
+use App\Http\Requests\SearchRequest;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
@@ -143,20 +144,20 @@ class TweetController extends Controller
     /**
      * 投稿内容の検索
      *
-     * @param Request $request
+     * @param SearchRequest $request
      *
      * @return view|RedirectResponse
      */
-    public function searchByQuery(Request $request)
+    public function searchByQuery(SearchRequest $request): view|RedirectResponse
     {
         try{
-            $keyword = $request->input('search');
+            $search = $request->input('search');
 
-            $tweets = $this->tweet->searchByQuery($keyword);
+            $tweets = $this->tweet->searchByQuery($search);
 
             return view('top.index', compact('tweets'));
         }catch(Exception $e){
-
+            logger($e);
             return redirect()->route('top');
         }
     }
