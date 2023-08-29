@@ -110,12 +110,13 @@ class Tweet extends Model
         if(!empty($search)){
             $searchSplit = mb_convert_kana($search, "s");
             $wordArraySearched = preg_split('/[\s]+/', $searchSplit, -1, PREG_SPLIT_NO_EMPTY);
+
             foreach($wordArraySearched as $value){
-            $query->where("content", "LIKE", "%{$value}%");
+                $query->where("content", "LIKE", "%{$value}%");
             }
         }
         $tweets = $query->get();
-        
+
         return $tweets;
     }
 }
