@@ -3,21 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tweet;
+use App\Http\Requests\SearchRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\View;
+use Exception;
+
 
 
 class TopController extends Controller
 {
-
     /**
      * トップ画面（Twitterの最初の画面）
      *
-     * @return view
+     *
+     * @return view|RedirectResponse
      */
-    public function index()
+    public function index(Tweet $tweet, SearchRequest $request): view|RedirectResponse
     {
-        $tweets = Tweet::all();
+        try {
+            $search = $request->input('search');
+            $tweets = Tweet::all();
 
-        return view('top.index', compact('tweets'));
+            if(!empty($search)){
+                $tweets = $tweet->searchByQuery($search);
+            }
+
+            return view('top.index', compact('tweets'));
+        } catch (Exception $e) {
+            logger($e);
+
+            return redirect()->route('top');
+        }
     }
 }
