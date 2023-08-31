@@ -43,23 +43,19 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 //ツイート関連
-Route::group(['prefix' => 'tweet', 'as' => 'tweet.', 'middleware' => 'auth'], function (){
+Route::group(['prefix' => 'tweet', 'middleware' => 'auth'], function (){
     //ツイート投稿画面に遷移
-    Route::get('/create', [App\Http\Controllers\TweetController::class, 'showTweetForm'])->name('showForm');
+    Route::get('/create', [App\Http\Controllers\TweetController::class, 'showTweetForm'])->name('tweets.showForm');
     //ツイート投稿
-    Route::post('', [App\Http\Controllers\TweetController::class, 'create'])->name('create');
+    Route::post('', [App\Http\Controllers\TweetController::class, 'create'])->name('tweets.create');
     //ツイート一覧表示
-    Route::get('/show', [App\Http\Controllers\TweetController::class, 'index'])->name('show');
+    Route::get('/show', [App\Http\Controllers\TweetController::class, 'index'])->name('tweets.show');
     //ツイート詳細画面に遷移
-    Route::get('/{id}/details', [App\Http\Controllers\TweetController::class, 'findByTweetId'])->name('details');
+    Route::get('/{id}/details', [App\Http\Controllers\TweetController::class, 'findByTweetId'])->name('tweet.details');
     //ツイートを更新して、ツイート一覧表示に遷移
-    Route::put('/{id}/update', [App\Http\Controllers\TweetController::class, 'update'])->name('update');
+    Route::put('/{id}/update', [App\Http\Controllers\TweetController::class, 'update'])->name('tweet.update');
     //ツイートを削除する
-    Route::put('{id}/delete', [App\Http\Controllers\TweetController::class, 'delete'])->name('delete');
+    Route::put('{id}/delete', [App\Http\Controllers\TweetController::class, 'delete'])->name('tweet.delete');
     //検索
-    Route::get('/search', [App\Http\Controllers\TopController::class, 'index'])->name('query');
-    //いいね
-    Route::post('/{id}/favorite',  [App\Http\Controllers\TweetController::class, 'favorite'])->name('favorite');
-    //いいね解除
-    Route::delete('{id}/cancelFollow', [App\Http\Controllers\TweetController::class, 'unlike'])->name('cancelFavorite');
+    Route::get('/search', [App\Http\Controllers\TopController::class, 'index'])->name('tweet.query');
 });
