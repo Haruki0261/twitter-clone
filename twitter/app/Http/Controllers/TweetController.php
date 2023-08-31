@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tweet;
 use App\Http\Requests\TweetRequest;
+use App\Http\Requests\SearchRequest;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
@@ -137,6 +138,27 @@ class TweetController extends Controller
 
         } catch (Exception $e) {
             return redirect()->route("tweets.show")->with("flashMessage", "ツイート削除にエラーが発生しました。");
+        }
+    }
+
+    /**
+     * 投稿内容の検索
+     *
+     * @param SearchRequest $request
+     *
+     * @return view|RedirectResponse
+     */
+    public function searchByQuery(SearchRequest $request): view|RedirectResponse
+    {
+        try{
+            $search = $request->input('search');
+
+            $tweets = $this->tweet->searchByQuery($search);
+
+            return view('top.index', compact('tweets'));
+        }catch(Exception $e){
+            logger($e);
+            return redirect()->route('top');
         }
     }
 }

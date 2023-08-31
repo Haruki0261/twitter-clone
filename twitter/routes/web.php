@@ -56,4 +56,6 @@ Route::group(['prefix' => 'tweet', 'middleware' => 'auth'], function (){
     Route::put('/{id}/update', [App\Http\Controllers\TweetController::class, 'update'])->name('tweet.update');
     //ツイートを削除する
     Route::put('{id}/delete', [App\Http\Controllers\TweetController::class, 'delete'])->name('tweet.delete');
+    //検索
+    Route::get('/search', [App\Http\Controllers\TweetController::class, 'searchByQuery'])->name('tweet.query');
 });

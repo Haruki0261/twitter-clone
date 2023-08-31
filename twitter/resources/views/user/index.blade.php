@@ -33,7 +33,6 @@
                         @csrf
                         <button type="submit" class="btn btn-danger">フォロー解除</button>
                     </form>
-
                     @endif
                     </td>
                 </tr>

@@ -95,4 +95,28 @@ class Tweet extends Model
     {
         Tweet::find($tweetId)->delete();
     }
+
+    /**
+     * 検索ワードと部分一致（LIKE検索）した投稿内容を取得
+     *
+     * @param ?string $keyword
+     *
+     * @return collection
+     */
+    public function searchByQuery(?string $search): Collection
+    {
+        $query = Tweet::query();
+
+        if(!empty($search)){
+            $searchSplit = mb_convert_kana($search, "s");
+            $wordArraySearched = preg_split('/[\s]+/', $searchSplit, -1, PREG_SPLIT_NO_EMPTY);
+
+            foreach($wordArraySearched as $value){
+                $query->where("content", "LIKE", "%{$value}%");
+            }
+        }
+        $tweets = $query->get();
+
+        return $tweets;
+    }
 }

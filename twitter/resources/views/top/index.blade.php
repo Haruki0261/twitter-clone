@@ -15,6 +15,30 @@
                 {{ session('flashMessage') }}
             </div>
             @endif
+            <div class="row justify-content-center">
+                <div class="col-md-7">
+                    @if ($errors->any())
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-md-offset-1">
+                    <form action="{{ route('tweet.query') }}" method="get">
+                        @csrf
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" name="search">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-light btn-outline-primary">検索</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
             @foreach($tweets as $tweet)
                 @if($tweet->user)
                 <a href="{{ route('tweet.details', ['id' => $tweet->id]) }}" class="text-reset text-decoration-none">
