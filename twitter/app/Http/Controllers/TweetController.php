@@ -146,7 +146,7 @@ class TweetController extends Controller
      *
      * @return RedirectResponse
      */
-    public function favorite($tweetId): RedirectResponse
+    public function favorite(int $tweetId): RedirectResponse
     {
         $userId = Auth::id();
         $this->like->favorite($userId, $tweetId);
@@ -159,7 +159,7 @@ class TweetController extends Controller
      *
      * @return RedirectResponse
      */
-    public function unlike($tweetId)
+    public function unlike(int $tweetId)
     {
         $this->like->unlike($tweetId);
 
