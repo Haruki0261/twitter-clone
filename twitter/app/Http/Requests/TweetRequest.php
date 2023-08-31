@@ -24,7 +24,6 @@ class TweetRequest extends FormRequest
      */
     public function rules()
     {
-
         return[
             'content' => ['required', 'string', 'max:' . config('validation.TWEET_CONTENT.MAX')],
         ];
