@@ -57,5 +57,9 @@ Route::group(['prefix' => 'tweet', 'middleware' => 'auth'], function (){
     //ツイートを削除する
     Route::put('{id}/delete', [App\Http\Controllers\TweetController::class, 'delete'])->name('tweet.delete');
     //検索
-    Route::get('/search', [App\Http\Controllers\TweetController::class, 'searchByQuery'])->name('tweet.query');
+    Route::get('/search', [App\Http\Controllers\TopController::class, 'index'])->name('tweet.query');
+    //いいね
+    Route::post('/{id}/favorite',  [App\Http\Controllers\TweetController::class, 'favorite'])->name('tweet.favorite');
+    //いいね解除
+    Route::delete('{id}/cancelFollow', [App\Http\Controllers\TweetController::class, 'unlike'])->name('tweet.cancelFavorite');
 });

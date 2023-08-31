@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tweet;
+use App\Models\Like;
 use App\Http\Requests\TweetRequest;
-use App\Http\Requests\SearchRequest;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-
 
 class TweetController extends Controller
 {
@@ -18,9 +16,11 @@ class TweetController extends Controller
      *Tweetモデルのインスタンスを受け取り、プロパティに代入する
      */
     private $tweet;
-    public function __construct(Tweet $tweet)
+    private $like;
+    public function __construct(Tweet $tweet, Like $like)
     {
         $this->tweet = $tweet;
+        $this->like = $like;
     }
 
     /**
@@ -96,7 +96,6 @@ class TweetController extends Controller
             }
 
             return redirect()->route("tweets.show")->with("flashMessage", $flashMessage);
-
         } catch (Exception $e) {
             return redirect()->route("tweets.show")->with("flashMessage", "ツイート編集にエラーが発生しました。");
         }
@@ -135,30 +134,35 @@ class TweetController extends Controller
             }
 
             return redirect()->route("tweets.show")->with("flashMessage", $flashMessage);
-
         } catch (Exception $e) {
             return redirect()->route("tweets.show")->with("flashMessage", "ツイート削除にエラーが発生しました。");
         }
     }
 
     /**
-     * 投稿内容の検索
+     * いいねを押す
      *
-     * @param SearchRequest $request
+     * @param int $tweetId
      *
-     * @return view|RedirectResponse
+     * @return RedirectResponse
      */
-    public function searchByQuery(SearchRequest $request): view|RedirectResponse
+    public function favorite($tweetId): RedirectResponse
     {
-        try{
-            $search = $request->input('search');
+        $userId = Auth::id();
+        $this->like->favorite($userId, $tweetId);
 
-            $tweets = $this->tweet->searchByQuery($search);
+        return redirect()->route('top');
+    }
 
-            return view('top.index', compact('tweets'));
-        }catch(Exception $e){
-            logger($e);
-            return redirect()->route('top');
-        }
+    /**
+     * いいねを解除する
+     *
+     * @return RedirectResponse
+     */
+    public function unlike($tweetId)
+    {
+        $this->like->unlike($tweetId);
+
+        return redirect()->route('top');
     }
 }
