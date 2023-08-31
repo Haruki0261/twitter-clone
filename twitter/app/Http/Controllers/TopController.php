@@ -15,6 +15,8 @@ class TopController extends Controller
     /**
      * トップ画面（Twitterの最初の画面）
      *
+     *  @param Tweet $tweet
+     *  @param SearchRequest $request
      *
      * @return view|RedirectResponse
      */
