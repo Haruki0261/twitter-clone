@@ -46,7 +46,7 @@ class TweetController extends Controller
         $content = $request->input("content");
         $this->tweet->create($authorId, $content);
 
-        return redirect()->route("tweets.show");
+        return redirect()->route("tweet.show");
     }
 
     /**
@@ -95,9 +95,9 @@ class TweetController extends Controller
                 $flashMessage = 'ツイートが編集されました。';
             }
 
-            return redirect()->route("tweets.show")->with("flashMessage", $flashMessage);
+            return redirect()->route("tweet.show")->with("flashMessage", $flashMessage);
         } catch (Exception $e) {
-            return redirect()->route("tweets.show")->with("flashMessage", "ツイート編集にエラーが発生しました。");
+            return redirect()->route("tweet.show")->with("flashMessage", "ツイート編集にエラーが発生しました。");
         }
     }
 
@@ -133,9 +133,9 @@ class TweetController extends Controller
                 $flashMessage = "ツイート削除に成功しました。";
             }
 
-            return redirect()->route("tweets.show")->with("flashMessage", $flashMessage);
+            return redirect()->route("tweet.show")->with("flashMessage", $flashMessage);
         } catch (Exception $e) {
-            return redirect()->route("tweets.show")->with("flashMessage", "ツイート削除にエラーが発生しました。");
+            return redirect()->route("tweet.show")->with("flashMessage", "ツイート削除にエラーが発生しました。");
         }
     }
 
