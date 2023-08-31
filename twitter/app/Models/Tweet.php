@@ -106,14 +106,11 @@ class Tweet extends Model
     public function searchByQuery(?string $search): Collection
     {
         $query = Tweet::query();
+        $searchSplit = mb_convert_kana($search, "s");
+        $wordArraySearched = preg_split('/[\s]+/', $searchSplit, -1, PREG_SPLIT_NO_EMPTY);
 
-        if(!empty($search)){
-            $searchSplit = mb_convert_kana($search, "s");
-            $wordArraySearched = preg_split('/[\s]+/', $searchSplit, -1, PREG_SPLIT_NO_EMPTY);
-
-            foreach($wordArraySearched as $value){
-                $query->where("content", "LIKE", "%{$value}%");
-            }
+        foreach($wordArraySearched as $value){
+            $query->where("content", "LIKE", "%{$value}%");
         }
         $tweets = $query->get();
 
