@@ -2,24 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Like;
 use App\Models\Tweet;
 use App\Http\Requests\TweetRequest;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-
 
 class TweetController extends Controller
 {
     /**
      *Tweetモデルのインスタンスを受け取り、プロパティに代入する
+     *Likeモデルのインスタンスを受け取り、プロパティに代入する
      */
     private $tweet;
-    public function __construct(Tweet $tweet)
+    private $like;
+    public function __construct(Tweet $tweet, Like $like)
     {
         $this->tweet = $tweet;
+        $this->like = $like;
     }
 
     /**
@@ -45,7 +47,7 @@ class TweetController extends Controller
         $content = $request->input("content");
         $this->tweet->create($authorId, $content);
 
-        return redirect()->route("tweets.show");
+        return redirect()->route("tweet.show");
     }
 
     /**
@@ -94,10 +96,11 @@ class TweetController extends Controller
                 $flashMessage = 'ツイートが編集されました。';
             }
 
-            return redirect()->route("tweets.show")->with("flashMessage", $flashMessage);
-
+            return redirect()->route("tweet.show")->with("flashMessage", $flashMessage);
         } catch (Exception $e) {
-            return redirect()->route("tweets.show")->with("flashMessage", "ツイート編集にエラーが発生しました。");
+            logger($e);
+
+            return redirect()->route("tweet.show")->with("flashMessage", "ツイート編集にエラーが発生しました。");
         }
     }
 
@@ -133,10 +136,38 @@ class TweetController extends Controller
                 $flashMessage = "ツイート削除に成功しました。";
             }
 
-            return redirect()->route("tweets.show")->with("flashMessage", $flashMessage);
-
+            return redirect()->route("tweet.show")->with("flashMessage", $flashMessage);
         } catch (Exception $e) {
-            return redirect()->route("tweets.show")->with("flashMessage", "ツイート削除にエラーが発生しました。");
+            logger($e);
+            
+            return redirect()->route("tweet.show")->with("flashMessage", "ツイート削除にエラーが発生しました。");
         }
+    }
+
+    /**
+     * いいねを押す
+     *
+     * @param int $tweetId
+     *
+     * @return RedirectResponse
+     */
+    public function favorite(int $tweetId): RedirectResponse
+    {
+        $userId = Auth::id();
+        $this->like->favorite($userId, $tweetId);
+
+        return redirect()->route('top');
+    }
+
+    /**
+     * いいねを解除する
+     *
+     * @return RedirectResponse
+     */
+    public function unlike(int $tweetId)
+    {
+        $this->like->unlike($tweetId);
+
+        return redirect()->route('top');
     }
 }
