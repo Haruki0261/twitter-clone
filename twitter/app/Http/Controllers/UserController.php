@@ -141,6 +141,7 @@ class UserController extends Controller
 
             return view('user.following', compact('follows'));
         }catch (Exception $e){
+            logger($e);
 
             return redirect()->route('users.index');
         }
@@ -158,6 +159,7 @@ class UserController extends Controller
 
             return view('user.followed', compact('followers'));
         }catch (Exception $e){
+            logger($e);
 
             return redirect()->route('users.index');
         }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tweet;
 use App\Models\Like;
+use App\Models\Tweet;
 use App\Http\Requests\TweetRequest;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +14,7 @@ class TweetController extends Controller
 {
     /**
      *Tweetモデルのインスタンスを受け取り、プロパティに代入する
+     *Likeモデルのインスタンスを受け取り、プロパティに代入する
      */
     private $tweet;
     private $like;
@@ -97,6 +98,8 @@ class TweetController extends Controller
 
             return redirect()->route("tweet.show")->with("flashMessage", $flashMessage);
         } catch (Exception $e) {
+            logger($e);
+
             return redirect()->route("tweet.show")->with("flashMessage", "ツイート編集にエラーが発生しました。");
         }
     }
@@ -135,6 +138,8 @@ class TweetController extends Controller
 
             return redirect()->route("tweet.show")->with("flashMessage", $flashMessage);
         } catch (Exception $e) {
+            logger($e);
+            
             return redirect()->route("tweet.show")->with("flashMessage", "ツイート削除にエラーが発生しました。");
         }
     }

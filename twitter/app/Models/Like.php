@@ -13,6 +13,7 @@ class Like extends Model
 
     protected $table = 'likes';
     protected $fillable = ['user_id', 'post_id'];
+    
     /**
      * リレーション（Userテーブルのidと、user_idを紐づける）
      *
@@ -43,10 +44,9 @@ class Like extends Model
      */
     public function favorite(int $userId, int $tweetId): void
     {
-        $like = new Like();
-        $like->user_id = $userId;
-        $like->post_id = $tweetId;
-        $like->save();
+        $this->user_id = $userId;
+        $this->post_id = $tweetId;
+        $this->save();
     }
 
     /**

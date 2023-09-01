@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tweet;
 use App\Models\Like;
+use App\Models\Tweet;
 use App\Http\Requests\SearchRequest;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\View;
-use Exception;
+
 
 
 
@@ -22,8 +23,11 @@ class TopController extends Controller
      *
      * @return view|RedirectResponse
      */
-    public function index(Like $like, Tweet $tweet, SearchRequest $request): view|RedirectResponse
-    {
+    public function index(
+        Like $like,
+        Tweet $tweet,
+        SearchRequest $request
+        ):view|RedirectResponse{
         try {
             $search = $request->input('search');
             $tweets = Tweet::all();
@@ -33,8 +37,7 @@ class TopController extends Controller
             }
 
             foreach ($tweets as $tweet) {
-                $isFavorite = $like->isFavorite($tweet->id);
-                $tweet['isFavorite'] = $isFavorite;
+                $tweet['isFavorite'] =  $like->isFavorite($tweet->id);
             }
 
             return view('top.index', compact('tweets'));
