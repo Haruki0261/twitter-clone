@@ -28,7 +28,7 @@
                 <a href="{{ route('user.showEdit') }}" class='btn btn-light'>編集</a>
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">削除</button>
-                <a href="{{ route('tweet.showForm') }}" class='btn btn-primary'>投稿</a>
+                <a href="{{ route('tweets.showForm') }}" class='btn btn-primary'>投稿</a>
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">

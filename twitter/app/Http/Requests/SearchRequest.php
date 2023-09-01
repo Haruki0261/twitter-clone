@@ -24,15 +24,10 @@ class SearchRequest extends FormRequest
     public function rules()
     {
         return [
-            'search' => ['max:' . config('validation.SEARCH_KEYWORD.MAX')]
+            'search' => ['max:20']
         ];
     }
 
-    /**
-     * 検索フォームのエラーメッセージ
-     *
-     * @return array
-     */
     public function messages()
     {
         return [
