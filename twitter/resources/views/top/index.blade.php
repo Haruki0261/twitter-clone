@@ -49,6 +49,24 @@
                                 <p class="mb-0 text-wrap">{{ $tweet->content }}</p>
                             </div>
                         </div>
+                        <div class="card-footer bg-white">
+                            <div class="d-flex justify-content-end">
+                                @if(!$tweet->isFavorite)
+                                    @if($tweet->author_id != Auth::id())
+                                        <form method="POST" action="{{ route('tweet.favorite', ['id' => $tweet->id]) }}"  class="mb-0">
+                                            @csrf
+                                            <button type="submit" class="btn p-0 border-0"><i class="far fa-heart fa-fw"></i></button>
+                                        </form>
+                                    @endif
+                                @else
+                                    <form method="post" action="{{ route('tweet.cancelFavorite', ['id' => $tweet->id]) }}"  class="mb-0">
+                                        @method("delete")
+                                        @csrf
+                                        <button type="submit" class="btn p-0 border-0" ><i class="fa-solid fa-heart fa-fw"></i></button>
+                                    </form>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </a>
                 @endif

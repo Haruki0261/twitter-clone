@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,6 +25,16 @@ class Tweet extends Model
     public function user(): belongsTo
     {
         return $this->belongsTo(User::class, 'author_id' , 'id');
+    }
+
+    /**
+     * リレーション（Likeテーブルのpost_idカラムと、idを紐づけている）
+     *
+     * @return hasMany
+     */
+    public function likes(): hasMany
+    {
+        return $this->hasMany(Like::class, 'post_id' , 'id');
     }
 
     /**

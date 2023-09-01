@@ -116,12 +116,22 @@ class User extends Authenticatable
     }
 
     /**
-     * リレーション（UserテーブルのidとFollowerテーブルのfollowing_idを紐づける。）
+     * リレーション（UserテーブルのidとFollowerテーブルのfollowing_idを紐づける）
      *
      * @return hasMany
      */
     public function followed(): hasMany
     {
         return $this->hasMany(Follower::class, 'following_id', 'id');
+    }
+
+    /**
+     * リレーション（UserテーブルのidとLikeテーブルのuser_idを紐づける）
+     *
+     * @return hasMany
+     */
+    public function likes(): hasMany
+    {
+        return $this->hasMany(Like::class, 'user_id', 'id');
     }
 }

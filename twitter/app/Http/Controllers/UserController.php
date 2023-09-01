@@ -155,7 +155,7 @@ class UserController extends Controller
     {
         try{
             $followers = $this->follower->getFollowedUsers();
-            
+
             return view('user.followed', compact('followers'));
         }catch (Exception $e){
 
