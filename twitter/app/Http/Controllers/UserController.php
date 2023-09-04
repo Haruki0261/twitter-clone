@@ -45,7 +45,7 @@ class UserController extends Controller
         $user = $this->user->findByUserId($userId);
         $followCount = $this->follower->getFollowCount();
         $followedCount = $this->follower->getFollowedCount();
-        $likeTweets = $this->like->getLikeTweet($userId);
+        $likeTweets = $this->like->getLikedTweet($userId);
 
         return view('user.show', compact('user', 'followCount', 'followedCount', 'likeTweets'));
     }

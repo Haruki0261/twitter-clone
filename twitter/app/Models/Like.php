@@ -86,7 +86,7 @@ class Like extends Model
      *
      * @return int
      */
-    public function getLikeCount(int $tweetId): int
+    public function countMyPostLikes(int $tweetId): int
     {
         return Like::where([
             ['post_id', $tweetId],
@@ -100,7 +100,7 @@ class Like extends Model
      *
      * @return Collection
      */
-    public function getLikeTweet(int $userId): Collection
+    public function getLikedTweet(int $userId): Collection
     {
         return Like::where('user_id', $userId)
         ->with('tweets.user')

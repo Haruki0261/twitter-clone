@@ -38,9 +38,8 @@ class TopController extends Controller
 
             foreach ($tweets as $tweet) {
                 $tweet['isFavorite'] =  $like->isFavorite($tweet->id);
-                $tweet['favoriteCount'] = $like->getLikeCount($tweet->id);
+                $tweet['favoriteCount'] = $like->countMyPostLikes($tweet->id);
             }
-            
             return view('top.index', compact('tweets'));
         } catch (Exception $e) {
             logger($e);
