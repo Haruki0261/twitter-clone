@@ -38,13 +38,14 @@ class TopController extends Controller
 
             foreach ($tweets as $tweet) {
                 $tweet['isFavorite'] =  $like->isFavorite($tweet->id);
+                $tweet['favoriteCount'] = $like->getLikeCount($tweet->id);
             }
-
+            
             return view('top.index', compact('tweets'));
         } catch (Exception $e) {
             logger($e);
 
-            return redirect()->route('top');
+            return redirect()->route('users.index');
         }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Models\User;
 use App\Models\Follower;
+use App\Models\User;
+use App\Models\Like;
 use App\Http\Requests\UpdateUserRequest;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -18,29 +18,36 @@ class UserController extends Controller
      */
     private $user;
     private $follower;
-    public function __construct(User $user, Follower $follower)
-    {
-        $this->user = $user;
-        $this->follower = $follower;
-    }
+    private $like;
+    public function __construct(
+        User $user,
+        Follower $follower,
+        Like $like)
+        {
+            $this->user = $user;
+            $this->follower = $follower;
+            $this->like = $like;
+        }
+
 
     /**
-     * ユーザー詳細画面を表示します。
+     * ユーザー詳細画面を表示します。(ユーザーの情報、フォロー数、フォロワー数、ユーザーがいいねをした投稿を取得)
      *
-     * @param string $id
+     * @param string $userId
+     *
      * @return View
      */
-    public function findByUserId(string $id): View
+    public function findByUserId(string $userId): View
     {
-        if (Auth::id() !== (int)$id) {
+        if (Auth::id() !== (int)$userId) {
             return redirect()->route('top');
         }
-        $user = $this->user->findByUserId($id);
+        $user = $this->user->findByUserId($userId);
         $followCount = $this->follower->getFollowCount();
         $followedCount = $this->follower->getFollowedCount();
+        $likeTweets = $this->like->getLikeTweet($userId);
 
-
-        return view('user.show', compact('user', 'followCount', 'followedCount'));
+        return view('user.show', compact('user', 'followCount', 'followedCount', 'likeTweets'));
     }
 
     /**
