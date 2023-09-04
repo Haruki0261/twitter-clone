@@ -23,12 +23,12 @@ class UserController extends Controller
         User $user,
         Follower $follower,
         Like $like
-        )
-        {
-            $this->user = $user;
-            $this->follower = $follower;
-            $this->like = $like;
-        }
+    )
+    {
+        $this->user = $user;
+        $this->follower = $follower;
+        $this->like = $like;
+    }
 
 
     /**
@@ -47,7 +47,12 @@ class UserController extends Controller
         $followedCount = $this->follower->getFollowedCount();
         $likeTweets = $this->like->getLikedTweet($userId);
 
-        return view('user.show', compact('user', 'followCount', 'followedCount', 'likeTweets'));
+        return view('user.show', compact(
+            'user',
+            'followCount',
+            'followedCount',
+            'likeTweets'
+        ));
     }
 
     /**

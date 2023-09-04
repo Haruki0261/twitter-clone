@@ -103,7 +103,7 @@ class Like extends Model
     public function getLikedTweet(int $userId): Collection
     {
         return Like::where('user_id', $userId)
-        ->with('tweets.user')
-        ->get('post_id');
+            ->with('tweets.user')
+            ->get('post_id');
     }
 }

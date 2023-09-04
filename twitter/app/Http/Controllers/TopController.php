@@ -24,10 +24,11 @@ class TopController extends Controller
      * @return view|RedirectResponse
      */
     public function index(
-        Like $like,
-        Tweet $tweet,
-        SearchRequest $request
-        ):view|RedirectResponse{
+            Like $like,
+            Tweet $tweet,
+            SearchRequest $request
+        ): view | RedirectResponse
+        {
         try {
             $search = $request->input('search');
             $tweets = Tweet::all();
