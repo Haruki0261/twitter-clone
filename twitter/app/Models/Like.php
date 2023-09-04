@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\belongsTo;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class Like extends Model
@@ -13,7 +14,6 @@ class Like extends Model
 
     protected $table = 'likes';
     protected $fillable = ['user_id', 'post_id'];
-    
     /**
      * リレーション（Userテーブルのidと、user_idを紐づける）
      *
@@ -77,5 +77,33 @@ class Like extends Model
             ['user_id', Auth::id()],
             ['post_id', $tweetId],
         ])->delete();
+    }
+
+    /**
+     * 自分の投稿にいいねがいくつあるのかをカウントする
+     *
+     * @param int $tweetId
+     *
+     * @return int
+     */
+    public function countMyPostLikes(int $tweetId): int
+    {
+        return Like::where([
+            ['post_id', $tweetId],
+        ])->count();
+    }
+
+    /**
+     * Likeテーブルにユーザーがいいねしたツイートを取得する。
+     *
+     * @param int $userId
+     *
+     * @return Collection
+     */
+    public function getLikedTweet(int $userId): Collection
+    {
+        return Like::where('user_id', $userId)
+            ->with('tweets.user')
+            ->get('post_id');
     }
 }

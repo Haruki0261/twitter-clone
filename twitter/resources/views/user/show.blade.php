@@ -52,4 +52,24 @@
         </table>
     </div>
 </div>
+<div class="container-fluid">
+    <div class="row">
+            <div class="col">
+                <div class="card-mb-4 mb-4">
+                    @foreach($likeTweets as $likeTweet)
+                    <div class="card-header p-3 w-100 d-flex">
+                        <div class="ml-2 d-flex flex-column">
+                            <p class="mb-0">{{ $likeTweet->tweets->user->name}}</p>
+                        </div>
+                        <div class="d-flex justify-content-end flex-grow-1">
+                            <p class="mb-0">{{ $likeTweet->tweets->updated_at }}</p>
+                        </div>
+                    </div>
+                    <div class="card-body">{{ $likeTweet->tweets->content }}</div>
+                    @endforeach
+                </div>
+            </div>
+    </div>
+</div>
 @endsection
+

@@ -57,6 +57,7 @@
                                             @csrf
                                             <button type="submit" class="btn p-0 border-0"><i class="far fa-heart fa-fw"></i></button>
                                         </form>
+                                        <p>{{ $tweet->favoriteCount }}</p>
                                     @endif
                                 @else
                                     <form method="post" action="{{ route('tweet.cancelFavorite', ['id' => $tweet->id]) }}"  class="mb-0">
@@ -64,6 +65,7 @@
                                         @csrf
                                         <button type="submit" class="btn p-0 border-0" ><i class="fa-solid fa-heart fa-fw"></i></button>
                                     </form>
+                                    <p>{{ $tweet->favoriteCount }}</p>
                                 @endif
                             </div>
                         </div>

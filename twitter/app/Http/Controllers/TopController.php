@@ -24,10 +24,11 @@ class TopController extends Controller
      * @return view|RedirectResponse
      */
     public function index(
-        Like $like,
-        Tweet $tweet,
-        SearchRequest $request
-        ):view|RedirectResponse{
+            Like $like,
+            Tweet $tweet,
+            SearchRequest $request
+        ): view | RedirectResponse
+        {
         try {
             $search = $request->input('search');
             $tweets = Tweet::all();
@@ -38,13 +39,13 @@ class TopController extends Controller
 
             foreach ($tweets as $tweet) {
                 $tweet['isFavorite'] =  $like->isFavorite($tweet->id);
+                $tweet['favoriteCount'] = $like->countMyPostLikes($tweet->id);
             }
-
             return view('top.index', compact('tweets'));
         } catch (Exception $e) {
             logger($e);
 
-            return redirect()->route('top');
+            return redirect()->route('users.index');
         }
     }
 }
