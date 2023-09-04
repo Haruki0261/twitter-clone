@@ -98,9 +98,9 @@ class Like extends Model
      *
      * @param int $userId
      *
-     * @return collection
+     * @return Collection
      */
-    public function getLikeTweet(int $userId): collection
+    public function getLikeTweet(int $userId): Collection
     {
         return Like::where('user_id', $userId)
         ->with('tweets.user')

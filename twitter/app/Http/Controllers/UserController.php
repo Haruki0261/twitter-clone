@@ -22,7 +22,8 @@ class UserController extends Controller
     public function __construct(
         User $user,
         Follower $follower,
-        Like $like)
+        Like $like
+        )
         {
             $this->user = $user;
             $this->follower = $follower;
@@ -33,15 +34,14 @@ class UserController extends Controller
     /**
      * ユーザー詳細画面を表示します。(ユーザーの情報、フォロー数、フォロワー数、ユーザーがいいねをした投稿を取得)
      *
-     * @param string $userId
+     * @param int $userId
      *
      * @return View
      */
-    public function findByUserId(string $userId): View
+    public function findByUserId(int $userId): View
     {
-        if (Auth::id() !== (int)$userId) {
+        if (Auth::id() !== $userId)
             return redirect()->route('top');
-        }
         $user = $this->user->findByUserId($userId);
         $followCount = $this->follower->getFollowCount();
         $followedCount = $this->follower->getFollowedCount();
