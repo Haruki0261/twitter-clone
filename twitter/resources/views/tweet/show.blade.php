@@ -60,7 +60,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete">
                             削除
                         </button>

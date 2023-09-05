@@ -62,4 +62,8 @@ Route::group(['prefix' => 'tweet', 'as' => 'tweet.', 'middleware' => 'auth'], fu
     Route::post('/{id}/favorite',  [App\Http\Controllers\TweetController::class, 'favorite'])->name('favorite');
     //いいね解除
     Route::delete('{id}/cancelFollow', [App\Http\Controllers\TweetController::class, 'unlike'])->name('cancelFavorite');
+    //リプライ作成ビューに遷移
+    Route::get('{id}/showCreateReply', [App\Http\Controllers\TweetController::class, 'showReplyForm'])->name('showReplyForm');
+    //リプライ作成
+    Route::post('/{id}/createReply', [App\Http\Controllers\TweetController::class, 'createReply'])->name('createReply');
 });

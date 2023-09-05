@@ -127,4 +127,28 @@ class Tweet extends Model
 
         return $tweets;
     }
+
+    /**
+     * リレーション（TweetテーブルのidとReplyテーブルのpost_idを紐づける）
+     *
+     * @return hanMany
+     */
+    public function reply(): hasMany
+    {
+        return $this->hasMany(Reply::class, 'post_id', 'id');
+    }
+
+    /**
+     * リプライをするツイートを取得する
+     *
+     * @param int $tweetId
+     *
+     * @return Tweet
+     */
+    public function getTweetContent(int $tweetId): Tweet
+    {
+        return Tweet::findOrFail($tweetId);
+    }
 }
+
+
