@@ -23,15 +23,15 @@ class TweetController extends Controller
     private $like;
     private $reply;
     public function __construct(
-            Tweet $tweet,
-            Like $like,
-            Reply $reply
-        )
-        {
-            $this->tweet = $tweet;
-            $this->like = $like;
-            $this->reply = $reply;
-        }
+        Tweet $tweet,
+        Like $like,
+        Reply $reply
+    )
+    {
+        $this->tweet = $tweet;
+        $this->like = $like;
+        $this->reply = $reply;
+    }
 
     /**
      * 投稿ボタンを押したら、投稿画面に遷移

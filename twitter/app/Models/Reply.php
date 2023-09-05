@@ -32,7 +32,16 @@ class Reply extends Model
         return $this->belongsTo(Tweet::class, 'post_id', 'id');
     }
 
-    public function createReply($authorId, $tweetId, $content)
+    /**
+     * リプライを作成
+     *
+     * @param int $authorId
+     * @param int $tweetId
+     * @param string $content
+     *
+     * @return void
+     */
+    public function createReply(int $authorId, int $tweetId, string $content): void
     {
         $this->user_id = $authorId;
         $this->post_id = $tweetId;

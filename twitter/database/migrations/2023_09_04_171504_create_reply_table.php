@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->comment('ユーザーid');
             $table->unsignedBigInteger('post_id')->comment('ツイートid');
-            $table->string('content', 140)->comment('コメント内容');
+            $table->string('content', config('validation.TWEET_CONTENT.MAX'))->comment('コメント内容');
             $table->timestamps();
 
             $table->foreign('user_id')

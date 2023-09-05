@@ -138,7 +138,7 @@ class User extends Authenticatable
     /**
      * リレーション（UserテーブルのidとReplyテーブルのuser_idを紐づける）
      *
-     * @return hanMany
+     * @return hasMany
      */
     public function reply(): hasMany
     {
