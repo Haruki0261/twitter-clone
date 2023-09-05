@@ -6,7 +6,7 @@ use App\Models\Like;
 use App\Models\Tweet;
 use App\Models\Reply;
 use App\Http\Requests\TweetRequest;
-use App\Http\Requests\ReplyRequest;
+use App\Http\Requests\PostReplyRequest;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
@@ -202,7 +202,7 @@ class TweetController extends Controller
      *
      * @return RedirectResponse
      */
-    public function createReply(ReplyRequest $request, int $tweetId): RedirectResponse
+    public function createReply(PostReplyRequest $request, int $tweetId): RedirectResponse
     {
         try{
             $authorId = Auth::id();
