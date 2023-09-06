@@ -95,6 +95,18 @@
                         </div>
                     </div>
                 </div>
+                @foreach($replies as $reply)
+                    @if($tweet->id === $reply->post_id)
+                        <div class="card mb-2 rounded-pill">
+                            <div class="card-body p-3 w-100 d-flex">
+                                <div class="ml-10 d-flex flex-column">
+                                    <p>{{ $reply->user->name }}</p>
+                                    <p>{{ $reply->content }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
             </div>
         </div>
     </div>

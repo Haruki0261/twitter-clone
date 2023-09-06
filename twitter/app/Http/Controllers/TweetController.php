@@ -81,8 +81,9 @@ class TweetController extends Controller
     public function findByTweetId(string $userId): view
     {
         $tweet = $this->tweet->getTweet($userId);
+        $replies = $this->reply->getAllReply();
 
-        return view("tweet.show", compact('tweet'));
+        return view("tweet.show", compact('tweet', 'replies'));
     }
 
     /**
@@ -204,17 +205,16 @@ class TweetController extends Controller
      */
     public function createReply(PostReplyRequest $request, int $tweetId): RedirectResponse
     {
-        try{
+        try {
             $authorId = Auth::id();
             $content = $request->input("content");
             $this->reply->createReply($authorId, $tweetId, $content);
 
             return redirect()->route('top');
-        }catch(Exception $e){
+        } catch (Exception $e) {
             logger($e);
 
             return redirect()->route('top')->with("flashMessage", "リプライ投稿に失敗しました。");
         }
     }
 }
-

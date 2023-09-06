@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\belongsTo;
+use Illuminate\Database\Eloquent\Collection;
+
 
 class Reply extends Model
 {
@@ -47,6 +49,16 @@ class Reply extends Model
         $this->post_id = $tweetId;
         $this->content = $content;
         $this->save();
+    }
+
+    /**
+     * リプライのデータを全て取得
+     *
+     * @return Collection
+     */
+    public function getAllReply(): Collection
+    {
+        return Reply::all();
     }
 }
 
