@@ -21,16 +21,21 @@ class PostReplyRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'content' => ['required', 'string', 'max:' . config('validation.TWEET_CONTENT.MAX')]
         ];
     }
 
-    public function messages()
+    /**
+     * エラーメッセージ
+     *
+     * @return array
+     */
+    public function messages(): array
     {
-        return[
+        return [
             'content.required' => '必ず入力してね',
             'content.string' => '必ず文字列で入力しようね',
             'content.max' => config('validation.TWEET_CONTENT.MAX') . "文字以下にせんかい",
