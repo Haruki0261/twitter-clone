@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Like;
 use App\Models\Tweet;
+use App\Models\Reply;
 use App\Http\Requests\TweetRequest;
+use App\Http\Requests\PostReplyRequest;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class TweetController extends Controller
 {
@@ -18,10 +21,16 @@ class TweetController extends Controller
      */
     private $tweet;
     private $like;
-    public function __construct(Tweet $tweet, Like $like)
+    private $reply;
+    public function __construct(
+        Tweet $tweet,
+        Like $like,
+        Reply $reply
+    )
     {
         $this->tweet = $tweet;
         $this->like = $like;
+        $this->reply = $reply;
     }
 
     /**
@@ -139,7 +148,7 @@ class TweetController extends Controller
             return redirect()->route("tweet.show")->with("flashMessage", $flashMessage);
         } catch (Exception $e) {
             logger($e);
-            
+
             return redirect()->route("tweet.show")->with("flashMessage", "ツイート削除にエラーが発生しました。");
         }
     }
@@ -170,4 +179,42 @@ class TweetController extends Controller
 
         return redirect()->route('top');
     }
+
+    /**
+     * リプライ画面に遷移
+     *
+     * @param int $tweetId
+     *
+     * @return View
+     */
+    public function showReplyForm($tweetId): View
+    {
+        $tweet = $this->tweet->getTweetContent($tweetId);
+
+        return view('tweet.createReply', compact('tweet'));
+    }
+
+    /**
+     * リプライ作成
+     *
+     * @param ReplyRequest $request
+     * @param int $tweetId
+     *
+     * @return RedirectResponse
+     */
+    public function createReply(PostReplyRequest $request, int $tweetId): RedirectResponse
+    {
+        try{
+            $authorId = Auth::id();
+            $content = $request->input("content");
+            $this->reply->createReply($authorId, $tweetId, $content);
+
+            return redirect()->route('top');
+        }catch(Exception $e){
+            logger($e);
+
+            return redirect()->route('top')->with("flashMessage", "リプライ投稿に失敗しました。");
+        }
+    }
 }
+

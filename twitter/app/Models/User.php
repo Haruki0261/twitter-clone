@@ -134,4 +134,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Like::class, 'user_id', 'id');
     }
+
+    /**
+     * リレーション（UserテーブルのidとReplyテーブルのuser_idを紐づける）
+     *
+     * @return hasMany
+     */
+    public function reply(): hasMany
+    {
+        return $this->hasMany(Reply::class, 'user_id', 'id');
+    }
 }

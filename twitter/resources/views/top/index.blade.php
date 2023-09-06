@@ -11,9 +11,9 @@
     <div class="row justify-content-center">
         <div class="col-md-9">
             @if (session('flashMessage'))
-            <div class="flash_message">
-                {{ session('flashMessage') }}
-            </div>
+                <div class="flash_message text-center bg-warning">
+                    {{ session('flashMessage') }}
+                </div>
             @endif
             <div class="row justify-content-center">
                 <div class="col-md-7">
@@ -52,7 +52,7 @@
                         <div class="card-footer bg-white">
                             <div class="d-flex justify-content-end">
                                 @if(!$tweet->isFavorite)
-                                    @if($tweet->author_id != Auth::id())
+                                    @if($tweet->author_id !== Auth::id())
                                         <form method="POST" action="{{ route('tweet.favorite', ['id' => $tweet->id]) }}"  class="mb-0">
                                             @csrf
                                             <button type="submit" class="btn p-0 border-0"><i class="far fa-heart fa-fw"></i></button>
@@ -66,6 +66,12 @@
                                         <button type="submit" class="btn p-0 border-0" ><i class="fa-solid fa-heart fa-fw"></i></button>
                                     </form>
                                     <p>{{ $tweet->favoriteCount }}</p>
+                                @endif
+                                @if($tweet->author_id !== Auth::id())
+                                <form method="get" action="{{ route('tweet.showReplyForm', ['id' => $tweet->id]) }}"  class="mb-0">
+                                    @csrf
+                                    <button type="submit" class="btn p-0 mx-2 border-0"><i class="far fa-comment"></i></button>
+                                </form>
                                 @endif
                             </div>
                         </div>
