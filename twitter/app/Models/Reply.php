@@ -71,8 +71,6 @@ class Reply extends Model
      */
     public function updateReply(int $replyId, string $content): Void
     {
-        $reply = Reply::find($replyId);
-        $reply->content = $content;
-        $reply->save();
+        Reply::where('id', $replyId)->update(['content' => $content]);
     }
 }

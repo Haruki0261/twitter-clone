@@ -206,12 +206,11 @@ class TweetController extends Controller
     public function createReply(PostReplyRequest $request, int $tweetId): RedirectResponse
     {
         try {
-            $tweet = $this->reply->getTweetContent($tweetId);
-            $flashMessage = "リプライ投稿に成功しました。";
+            $tweet = $this->tweet->getTweetContent($tweetId);
 
-            if (is_null($tweet)) {
-                $flashMessage = "リプライするツイートが削除されました。";
-            }
+            $flashMessage = is_null($tweet)
+                ? "リプライするツイートが削除されました。"
+                : "リプライ投稿に成功しました。";
 
             $authorId = Auth::id();
             $content = $request->input("content");

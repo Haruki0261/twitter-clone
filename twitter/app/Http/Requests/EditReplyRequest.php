@@ -9,9 +9,9 @@ class EditReplyRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      *
-     * @return bool
+     * @return Bool
      */
-    public function authorize()
+    public function authorize(): Bool
     {
         return true;
     }
@@ -19,9 +19,9 @@ class EditReplyRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return Array<string, mixed>
      */
-    public function rules()
+    public function rules(): Array
     {
         return [
             'content' => ['required', 'string', 'max:' . config('validation.TWEET_CONTENT.MAX')]
@@ -30,9 +30,9 @@ class EditReplyRequest extends FormRequest
     /**
      * エラーメッセージ
      *
-     * @return array
+     * @return Array
      */
-    public function messages(): array
+    public function messages(): Array
     {
         return [
             'content.required' => '必ず入力してね',
