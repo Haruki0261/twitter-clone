@@ -41,9 +41,9 @@ class Reply extends Model
      * @param int $tweetId
      * @param string $content
      *
-     * @return void
+     * @return Void
      */
-    public function createReply(int $authorId, int $tweetId, string $content): void
+    public function createReply(int $authorId, int $tweetId, string $content): Void
     {
         $this->user_id = $authorId;
         $this->post_id = $tweetId;
@@ -65,11 +65,11 @@ class Reply extends Model
      * Pathパラメータのidと一致したレコードを更新する
      *
      * @param int $replyId
-     * @param int $content
+     * @param string $content
      *
-     * @return void
+     * @return Void
      */
-    public function updateReply(int $replyId, int $content): void
+    public function updateReply(int $replyId, string $content): Void
     {
         $reply = Reply::find($replyId);
         $reply->content = $content;

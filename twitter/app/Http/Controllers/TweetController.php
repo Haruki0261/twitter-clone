@@ -207,11 +207,18 @@ class TweetController extends Controller
     public function createReply(PostReplyRequest $request, int $tweetId): RedirectResponse
     {
         try {
+            $tweet = $this->reply->getTweetContent($tweetId);
+            $flashMessage = "リプライ投稿に成功しました。";
+
+            if(is_null($tweet)){
+                $flashMessage = "リプライするツイートが削除されました。";
+            }
+
             $authorId = Auth::id();
             $content = $request->input("content");
             $this->reply->createReply($authorId, $tweetId, $content);
 
-            return redirect()->route('top');
+            return redirect()->route('top')->with("flashMessage", "$flashMessage");
         } catch (Exception $e) {
             logger($e);
 
