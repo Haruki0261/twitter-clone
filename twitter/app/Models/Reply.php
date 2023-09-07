@@ -60,5 +60,19 @@ class Reply extends Model
     {
         return Reply::all();
     }
-}
 
+    /**
+     * Pathパラメータのidと一致したレコードを更新する
+     *
+     * @param int $replyId
+     * @param int $content
+     *
+     * @return void
+     */
+    public function updateReply(int $replyId, int $content): void
+    {
+        $reply = Reply::find($replyId);
+        $reply->content = $content;
+        $reply->save();
+    }
+}

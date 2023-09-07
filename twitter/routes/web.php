@@ -66,4 +66,6 @@ Route::group(['prefix' => 'tweet', 'as' => 'tweet.', 'middleware' => 'auth'], fu
     Route::get('/{id}/showCreateReply', [App\Http\Controllers\TweetController::class, 'showReplyForm'])->name('showReplyForm');
     //リプライ作成
     Route::post('/{id}/createReply', [App\Http\Controllers\TweetController::class, 'createReply'])->name('createReply');
+    //ツイートリプライの更新
+    Route::put('/{id}/updateReply', [App\Http\Controllers\TweetController::class, 'updateReply'])->name('updateReply');
 });
