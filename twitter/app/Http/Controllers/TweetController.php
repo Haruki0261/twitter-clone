@@ -27,8 +27,7 @@ class TweetController extends Controller
         Tweet $tweet,
         Like $like,
         Reply $reply
-    )
-    {
+    ) {
         $this->tweet = $tweet;
         $this->like = $like;
         $this->reply = $reply;
@@ -210,7 +209,7 @@ class TweetController extends Controller
             $tweet = $this->reply->getTweetContent($tweetId);
             $flashMessage = "リプライ投稿に成功しました。";
 
-            if(is_null($tweet)){
+            if (is_null($tweet)) {
                 $flashMessage = "リプライするツイートが削除されました。";
             }
 
@@ -236,12 +235,12 @@ class TweetController extends Controller
      */
     public function updateReply(EditReplyRequest $request, int $replyId): RedirectResponse
     {
-        try{
+        try {
             $content = $request->input('content');
             $this->reply->updateReply($replyId, $content);
 
             return redirect()->route('top');
-        }catch(Exception $e){
+        } catch (Exception $e) {
             logger($e);
 
             return redirect()->route('top')->with("flashMessage", "リプライ更新に失敗しました。");
