@@ -7,6 +7,7 @@ use App\Models\Tweet;
 use App\Models\Reply;
 use App\Http\Requests\TweetRequest;
 use App\Http\Requests\PostReplyRequest;
+use App\Http\Requests\EditReplyRequest;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
@@ -26,8 +27,7 @@ class TweetController extends Controller
         Tweet $tweet,
         Like $like,
         Reply $reply
-    )
-    {
+    ) {
         $this->tweet = $tweet;
         $this->like = $like;
         $this->reply = $reply;
@@ -206,15 +206,43 @@ class TweetController extends Controller
     public function createReply(PostReplyRequest $request, int $tweetId): RedirectResponse
     {
         try {
+            $tweet = $this->tweet->getTweetContent($tweetId);
+
+            $flashMessage = is_null($tweet)
+                ? "リプライするツイートが削除されました。"
+                : "リプライ投稿に成功しました。";
+
             $authorId = Auth::id();
             $content = $request->input("content");
             $this->reply->createReply($authorId, $tweetId, $content);
+
+            return redirect()->route('top')->with("flashMessage", "$flashMessage");
+        } catch (Exception $e) {
+            logger($e);
+
+            return redirect()->route('top')->with("flashMessage", "リプライ投稿に失敗しました。");
+        }
+    }
+
+    /**
+     * リプライ更新
+     *
+     * @param editReplyRequest $request
+     * @param int $replyId
+     *
+     * @return RedirectResponse
+     */
+    public function updateReply(EditReplyRequest $request, int $replyId): RedirectResponse
+    {
+        try {
+            $content = $request->input('content');
+            $this->reply->updateReply($replyId, $content);
 
             return redirect()->route('top');
         } catch (Exception $e) {
             logger($e);
 
-            return redirect()->route('top')->with("flashMessage", "リプライ投稿に失敗しました。");
+            return redirect()->route('top')->with("flashMessage", "リプライ更新に失敗しました。");
         }
     }
 }
