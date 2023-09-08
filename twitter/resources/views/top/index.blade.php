@@ -11,7 +11,7 @@
     <div class="row justify-content-center">
         <div class="col-md-9">
             @if (session('flashMessage'))
-                <div class="flash_message text-center bg-warning">
+                <div class="flash_message text-center bg-light">
                     {{ session('flashMessage') }}
                 </div>
             @endif
@@ -31,7 +31,7 @@
                     <form action="{{ route('tweet.query') }}" method="get">
                         @csrf
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="search">
+                            <input type="text" class="form-control" name="search" value="{{ $search }}">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-light btn-outline-primary">検索</button>
                             </div>
