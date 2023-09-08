@@ -73,4 +73,16 @@ class Reply extends Model
     {
         Reply::where('id', $replyId)->update(['content' => $content]);
     }
+
+    /**
+     * PathパラメータのリプライIDと一致したレコードを削除する
+     *
+     * @param int $replyId
+     *
+     * @return Void
+     */
+    public function deleteReply(int $replyId): Void
+    {
+        Reply::find($replyId)->delete();
+    }
 }

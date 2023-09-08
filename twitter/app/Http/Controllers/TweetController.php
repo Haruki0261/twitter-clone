@@ -245,4 +245,24 @@ class TweetController extends Controller
             return redirect()->route('top')->with("flashMessage", "リプライ更新に失敗しました。");
         }
     }
+
+    /**
+     * リプライ削除
+     *
+     * @param int $replyId
+     * 
+     * @return RedirectResponse
+     */
+    public function deleteReply(int $replyId): RedirectResponse
+    {
+        try {
+            $this->reply->deleteReply($replyId);
+
+            return redirect()->route('top')->with("flashMessage", "リプライ削除に成功しました。");
+        } catch (Exception $e) {
+            logger($e);
+
+            return redirect()->route('top')->with("flashMessage", "リプライ削除に失敗しました。");
+        }
+    }
 }

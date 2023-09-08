@@ -68,4 +68,6 @@ Route::group(['prefix' => 'tweet', 'as' => 'tweet.', 'middleware' => 'auth'], fu
     Route::post('/{id}/createReply', [App\Http\Controllers\TweetController::class, 'createReply'])->name('createReply');
     //ツイートリプライの更新
     Route::put('/{id}/updateReply', [App\Http\Controllers\TweetController::class, 'updateReply'])->name('updateReply');
+    //ツイート削除
+    Route::delete('/{id}/delete', [App\Http\Controllers\TweetController::class, 'deleteReply'])->name('deleteReply');
 });
