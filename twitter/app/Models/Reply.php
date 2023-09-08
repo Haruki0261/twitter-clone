@@ -83,6 +83,20 @@ class Reply extends Model
      */
     public function deleteReply(int $replyId): Void
     {
-        Reply::find($replyId)->delete();
+        Reply::where('id', $replyId)->delete();
+    }
+
+    /**
+     * PathパラメータのreplyIDと一致したIDを取得する
+     *
+     * @param int $replyId
+     *
+     * @return Reply
+     */
+    public function getReply($replyId): Reply
+    {
+        $reply = Reply::find($replyId);
+
+        return $reply;
     }
 }

@@ -225,6 +225,20 @@ class TweetController extends Controller
     }
 
     /**
+     * Replyを書いたユーザーと、ログイン中のユーザーが一致するかどうか
+     *
+     * @param int $replyId
+     * 
+     * @return Bool
+     */
+    public function isUserReply(int $replyId): Bool
+    {
+        $reply = $this->reply->getReply($replyId);
+
+        return $reply->user_id === Auth::id();
+    }
+
+    /**
      * リプライ更新
      *
      * @param editReplyRequest $request
@@ -236,13 +250,16 @@ class TweetController extends Controller
     {
         try {
             $content = $request->input('content');
-            $this->reply->updateReply($replyId, $content);
+
+            if($this->getReply($replyId)){
+                $this->reply->updateReply($replyId, $content);
+            }
 
             return redirect()->route('top');
         } catch (Exception $e) {
             logger($e);
 
-            return redirect()->route('top')->with("flashMessage", "リプライ更新に失敗しました。");
+            return redirect()->route('top')->with("flashMessage", "リプライ削除に失敗しました。");
         }
     }
 
@@ -250,19 +267,25 @@ class TweetController extends Controller
      * リプライ削除
      *
      * @param int $replyId
-     * 
+     *
      * @return RedirectResponse
      */
     public function deleteReply(int $replyId): RedirectResponse
     {
         try {
-            $this->reply->deleteReply($replyId);
+            $flashMessage = "リプライ削除に失敗しました。";
 
-            return redirect()->route('top')->with("flashMessage", "リプライ削除に成功しました。");
+            if($this->isUserReply($replyId)){
+                $this->reply->deleteReply($replyId);
+
+                $flashMessage = "リプライ削除に成功しました";
+            }
+
+            return redirect()->route('top')->with("flashMessage", "$flashMessage");
         } catch (Exception $e) {
             logger($e);
 
-            return redirect()->route('top')->with("flashMessage", "リプライ削除に失敗しました。");
+            return redirect()->route('top')->with("flashMessage", "リプライ削除にエラーが発生しました。");
         }
     }
 }
